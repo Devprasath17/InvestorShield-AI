@@ -135,8 +135,8 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
   };
 
   return (
-    <div className="min-h-screen bg-surface-container flex flex-col md:flex-row font-sans text-on-surface selection:bg-secondary-fixed selection:text-secondary">
-      <div className="md:hidden bg-surface-container-lowest border-b border-surface-container-highest flex items-center justify-between p-4 sticky top-0 z-50 shadow-sm">
+    <div className="min-h-screen bg-transparent flex flex-col md:flex-row font-sans text-on-surface selection:bg-secondary-fixed selection:text-secondary">
+      <div className="md:hidden bg-surface-container-lowest/80 backdrop-blur-md border-b border-surface-container-highest flex items-center justify-between p-4 sticky top-0 z-50 shadow-sm">
         <Link to="/dashboard" className="flex items-center space-x-2">
           <ShieldCheck className="w-7 h-7 text-secondary" />
           <span className="font-headline-sm text-headline-sm tracking-tight text-on-surface">InvestorShield AI</span>

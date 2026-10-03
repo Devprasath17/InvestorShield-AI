@@ -9,8 +9,7 @@ import { AboutPage } from './pages/AboutPage';
 import { SettingsPage } from './pages/SettingsPage';
 
 import { DashboardLayout } from './components/layout/DashboardLayout';
-
-
+import { PremiumBackground } from './components/ui/PremiumBackground';
 
 const AppDashboardLayout = () => (
   <DashboardLayout>
@@ -21,6 +20,7 @@ const AppDashboardLayout = () => (
 function App() {
   return (
     <Router>
+      <PremiumBackground />
       <Routes>
         {/* Public Landing Page */}
         <Route path="/" element={<HomePage />} />

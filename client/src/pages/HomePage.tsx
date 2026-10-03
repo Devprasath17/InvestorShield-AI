@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 
 export const HomePage: React.FC = () => {
   return (
-    <div className="bg-surface font-body-md text-on-surface antialiased min-h-screen flex flex-col animate-in fade-in slide-in-from-bottom-2 duration-300 ease-out motion-reduce:animate-none">
-      <header className="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+    <div className="bg-transparent font-body-md text-on-surface antialiased min-h-screen flex flex-col animate-in fade-in slide-in-from-bottom-2 duration-300 ease-out motion-reduce:animate-none">
+      <header className="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
         <div className="h-20 max-w-[1280px] mx-auto px-margin md:px-margin-tablet lg:px-margin-desktop flex items-center justify-between gap-gutter">
           <div className="flex items-center gap-space-md">
             <div className="flex flex-col">
@@ -32,9 +32,9 @@ export const HomePage: React.FC = () => {
         </div>
       </header>
 
-      <main className="w-full pt-20 bg-surface flex-grow flex flex-col">
-        <section className="relative w-full overflow-hidden bg-surface pb-space-xl pt-space-lg lg:pb-32">
-          <div className="pointer-events-none absolute -right-24 -top-24 h-[650px] w-[800px] rounded-full bg-surface-container-highest/60 blur-3xl"></div>
+      <main className="w-full pt-20 bg-transparent flex-grow flex flex-col">
+        <section className="relative w-full overflow-hidden bg-transparent pb-space-xl pt-space-lg lg:pb-32">
+          <div className="pointer-events-none absolute -right-24 -top-24 h-[650px] w-[800px] rounded-full bg-surface-container-highest/60 blur-3xl hidden md:block"></div>
           <div className="pointer-events-none absolute left-1/3 top-1/2 h-[450px] w-[450px] -translate-y-1/2 rounded-full bg-secondary-fixed/30 blur-2xl"></div>
           
           <div className="relative mx-auto max-w-[1280px] px-margin md:px-margin-tablet lg:px-margin-desktop">
