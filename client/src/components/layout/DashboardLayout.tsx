@@ -1,21 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { 
-  Shield, 
-  Search, 
-  BookOpen, 
-  Clock, 
-  Info, 
-  Settings, 
-  HelpCircle,
+import {
   Bell,
-  User,
-  ShieldCheck,
+  BookOpen,
+  Clock,
+  HelpCircle,
+  Info,
+  Menu,
   PanelLeftClose,
   PanelLeftOpen,
-  Menu,
+  Search,
+  Settings,
+  Shield,
+  ShieldCheck,
+  User,
   X,
-  Globe
 } from 'lucide-react';
 
 interface DashboardLayoutProps {
@@ -26,22 +25,32 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
   const location = useLocation();
   const isActive = (path: string) => location.pathname === path || (path !== '/dashboard' && location.pathname.startsWith(path));
 
-  const [isCollapsed, setIsCollapsed] = useState(() => {
-    const saved = localStorage.getItem('sidebarCollapsed');
-    return saved ? JSON.parse(saved) : false;
+  const [isCollapsed, setIsCollapsed] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return false;
+
+    try {
+      const saved = window.localStorage.getItem('sidebarCollapsed');
+      return saved ? JSON.parse(saved) : false;
+    } catch {
+      return false;
+    }
   });
+
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem('sidebarCollapsed', JSON.stringify(isCollapsed));
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem('sidebarCollapsed', JSON.stringify(isCollapsed));
+    }
   }, [isCollapsed]);
 
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isMobileOpen) {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && isMobileOpen) {
         setIsMobileOpen(false);
       }
     };
+
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isMobileOpen]);
@@ -58,7 +67,6 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
     { path: '/settings', label: 'Settings', icon: Settings },
   ];
 
-  // Helper to get page title
   const getPageTitle = () => {
     const path = location.pathname;
     if (path === '/dashboard') return 'Dashboard';
@@ -72,129 +80,202 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
 
   const activeTopIndex = navItems.findIndex((item) => isActive(item.path));
   const activeBottomIndex = bottomNavItems.findIndex((item) => isActive(item.path));
+  const ToggleIcon = isCollapsed ? PanelLeftOpen : PanelLeftClose;
+
+  const renderSidebarItem = (item: { path: string; label: string; icon: typeof Shield }) => {
+    const current = isActive(item.path);
+
+    return (
+      <Link
+        key={item.path}
+        to={item.path}
+        className={`group relative z-10 flex items-center h-11 rounded-xl font-label-lg text-label-lg font-normal transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none ${
+          isCollapsed ? 'justify-center px-0' : 'justify-start px-3'
+        } ${
+          current
+            ? 'text-white'
+            : 'text-on-surface-variant hover:bg-surface-container hover:text-on-surface'
+        }`}
+        aria-label={item.label}
+      >
+        <span
+          className={`relative flex items-center justify-center rounded-xl transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+            current ? 'bg-white/10 text-white shadow-sm' : 'bg-transparent text-current'
+          } ${
+            isCollapsed ? 'h-10 w-10' : 'h-5 w-5'
+          }`}
+        >
+          <item.icon
+            className={`w-5 h-5 shrink-0 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-active:scale-95 ${
+              current ? 'text-white scale-105' : 'text-current group-hover:scale-110'
+            }`}
+            strokeWidth={current ? 2.5 : 2}
+          />
+        </span>
+
+        <span
+          className={`whitespace-nowrap overflow-hidden transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none ${
+            isCollapsed
+              ? 'pointer-events-none opacity-0 w-0 -translate-x-2'
+              : 'opacity-100 w-auto translate-x-0 ml-3'
+          }`}
+        >
+          {item.label}
+        </span>
+
+        {isCollapsed && (
+          <span
+            className="pointer-events-none absolute left-full top-1/2 z-20 ml-2 -translate-y-1/2 rounded-md border border-surface-container-highest bg-surface-container-lowest px-2 py-1 text-[11px] font-medium text-on-surface shadow-sm opacity-0 -translate-x-1 transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:opacity-100 group-hover:translate-x-0"
+          >
+            {item.label}
+          </span>
+        )}
+      </Link>
+    );
+  };
 
   return (
     <div className="min-h-screen bg-surface-container flex flex-col md:flex-row font-sans text-on-surface selection:bg-secondary-fixed selection:text-secondary">
-      
-      {/* Mobile Header */}
       <div className="md:hidden bg-surface-container-lowest border-b border-surface-container-highest flex items-center justify-between p-4 sticky top-0 z-50 shadow-sm">
         <Link to="/dashboard" className="flex items-center space-x-2">
           <ShieldCheck className="w-7 h-7 text-secondary" />
           <span className="font-headline-sm text-headline-sm tracking-tight text-on-surface">InvestorShield AI</span>
         </Link>
-        <button className="text-on-surface-variant active:scale-95 transition-transform duration-200">
-           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>
+
+        <button
+          type="button"
+          aria-label="Open navigation menu"
+          onClick={() => setIsMobileOpen(true)}
+          className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-surface-container-highest bg-surface-container text-on-surface-variant transition-all duration-200 active:scale-95"
+        >
+          <Menu className="h-5 w-5" />
         </button>
       </div>
 
-      {/* Sidebar */}
-      <aside className="hidden md:flex flex-col w-64 bg-surface-container-lowest border-r border-surface-container-highest fixed h-full z-40 shadow-sm">
-        {/* Logo Area */}
-        <div className="px-6 py-8 border-b border-surface-container-highest/50">
-          <Link to="/dashboard" className="flex items-center space-x-3 group">
-            <div className="bg-secondary/10 p-2 rounded-xl group-hover:bg-secondary/20 group-active:scale-95 transition-all duration-300">
-              <ShieldCheck className="w-7 h-7 text-secondary group-hover:scale-105 transition-transform duration-300" strokeWidth={2.5} />
-            </div>
-            <div className="flex flex-col group-hover:translate-x-0.5 transition-transform duration-300">
-              <span className="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none mb-1">InvestorShield AI</span>
-              <span className="font-label-sm text-label-sm text-on-surface-variant tracking-wider">FINANCIAL SAFETY</span>
-            </div>
+      <div
+        className={`fixed inset-0 z-40 bg-slate-900/25 backdrop-blur-[1px] transition-opacity duration-300 md:hidden ${isMobileOpen ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
+        aria-hidden={!isMobileOpen}
+        onClick={() => setIsMobileOpen(false)}
+      />
+
+      <aside
+        className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-surface-container-highest bg-surface-container-lowest shadow-xl transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] md:hidden ${
+          isMobileOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
+      >
+        <div className="flex items-center justify-between border-b border-surface-container-highest/70 px-4 py-4">
+          <Link to="/dashboard" className="flex items-center gap-2" onClick={() => setIsMobileOpen(false)}>
+            <ShieldCheck className="h-6 w-6 text-secondary" />
+            <span className="font-headline-sm text-headline-sm tracking-tight text-on-surface">InvestorShield AI</span>
           </Link>
+
+          <button
+            type="button"
+            aria-label="Close navigation menu"
+            onClick={() => setIsMobileOpen(false)}
+            className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-surface-container-highest bg-surface-container text-on-surface-variant transition-all duration-200 hover:bg-surface-container hover:text-primary active:scale-95"
+          >
+            <X className="h-4 w-4" />
+          </button>
         </div>
 
-        {/* Navigation */}
-        <nav className="flex-1 py-6 px-4 flex flex-col gap-1 overflow-y-auto overflow-x-hidden relative">
-          {/* Active Indicator Background */}
-          <div 
-            className={`absolute left-4 right-4 h-11 rounded-xl bg-secondary shadow-sm shadow-secondary/25 transition-all duration-300 ease-[cubic-bezier(0.2,0.8,0.2,1)] z-0 motion-reduce:transition-none ${
-              activeTopIndex >= 0 ? 'opacity-100' : 'opacity-0'
-            }`}
-            style={{ top: '24px', transform: `translateY(${activeTopIndex * 48}px)` }}
-          />
-
-          {navItems.map((item) => (
-            <Link 
-              key={item.path}
-              to={item.path}
-              className={`relative z-10 flex items-center space-x-3 px-3 h-11 rounded-xl font-label-lg text-label-lg font-normal transition-all duration-300 group motion-reduce:transition-none ${
-                isActive(item.path) 
-                  ? 'text-white' 
-                  : 'text-on-surface-variant hover:bg-surface-container hover:text-on-surface'
-              }`}
-            >
-              <item.icon 
-                className={`w-5 h-5 shrink-0 transition-transform duration-300 group-hover:scale-110 group-active:scale-95 motion-reduce:transition-none ${isActive(item.path) ? 'text-white scale-105' : 'text-on-surface-variant'}`} 
-                strokeWidth={isActive(item.path) ? 2.5 : 2} 
-              />
-              <span className="group-hover:translate-x-0.5 transition-transform duration-300 motion-reduce:transition-none">{item.label}</span>
-            </Link>
-          ))}
+        <nav className="flex-1 space-y-1 px-3 py-4">
+          {navItems.map((item) => renderSidebarItem(item))}
         </nav>
 
-        {/* Bottom Nav & Footer */}
-        <div className="p-4 border-t border-surface-container-highest/50 flex flex-col gap-1 relative">
-          {/* Active Indicator Bottom */}
-          <div 
-            className={`absolute left-4 right-4 h-11 rounded-xl bg-secondary shadow-sm shadow-secondary/25 transition-all duration-300 ease-[cubic-bezier(0.2,0.8,0.2,1)] z-0 motion-reduce:transition-none ${
-              activeBottomIndex >= 0 ? 'opacity-100' : 'opacity-0'
+        <div className="border-t border-surface-container-highest/70 p-3">
+          {bottomNavItems.map((item) => renderSidebarItem(item))}
+        </div>
+      </aside>
+
+      <aside
+        className={`hidden md:flex flex-col border-r border-surface-container-highest bg-surface-container-lowest shadow-sm transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+          isCollapsed ? 'w-19' : 'w-64'
+        }`}
+      >
+        <div className="flex items-center justify-between border-b border-surface-container-highest/70 px-3 py-4">
+          {isCollapsed ? (
+            <div className="flex w-full justify-center">
+              <Link to="/dashboard" className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-secondary/10 text-secondary transition-all duration-200 hover:bg-secondary/15 active:scale-95">
+                <ShieldCheck className="h-5 w-5" />
+              </Link>
+            </div>
+          ) : (
+            <Link to="/dashboard" className="flex flex-1 items-center gap-3 overflow-hidden">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-secondary/10 text-secondary transition-all duration-200 hover:bg-secondary/15">
+                <ShieldCheck className="h-5 w-5" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="truncate font-headline-sm text-headline-sm tracking-tight text-on-surface">InvestorShield AI</div>
+                <div className="truncate font-label-sm text-label-sm uppercase tracking-[0.12em] text-on-surface-variant">Financial Safety</div>
+              </div>
+            </Link>
+          )}
+
+          <button
+            type="button"
+            aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+            onClick={() => setIsCollapsed((previous) => !previous)}
+            className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-surface-container-highest bg-surface-container text-on-surface-variant shadow-sm transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-surface-container hover:text-primary active:scale-95"
+          >
+            <ToggleIcon className="h-4.5 w-4.5 transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]" />
+          </button>
+        </div>
+
+        <div className="relative flex flex-1 flex-col overflow-hidden px-3 py-4">
+          <div
+            className={`absolute left-3 right-3 h-11 rounded-xl bg-secondary shadow-sm shadow-secondary/25 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none ${
+              activeTopIndex >= 0 ? 'opacity-100' : 'opacity-0'
             }`}
-            style={{ top: '16px', transform: `translateY(${activeBottomIndex * 48}px)` }}
+            style={{
+              top: `${16 + activeTopIndex * 48}px`,
+              transform: isCollapsed ? 'scale(0.96)' : 'scale(1)',
+            }}
           />
 
-          {bottomNavItems.map((item) => (
-            <Link 
-              key={item.path}
-              to={item.path}
-              className={`relative z-10 flex items-center space-x-3 px-3 h-11 rounded-xl font-label-lg text-label-lg font-normal transition-all duration-300 group motion-reduce:transition-none ${
-                isActive(item.path) 
-                  ? 'text-white' 
-                  : 'text-on-surface-variant hover:bg-surface-container hover:text-on-surface'
-              }`}
-            >
-              <item.icon 
-                className={`w-5 h-5 shrink-0 transition-transform duration-300 group-hover:scale-110 group-active:scale-95 motion-reduce:transition-none ${isActive(item.path) ? 'text-white scale-105' : 'text-on-surface-variant'}`} 
-                strokeWidth={isActive(item.path) ? 2.5 : 2} 
-              />
-              <span className="group-hover:translate-x-0.5 transition-transform duration-300 motion-reduce:transition-none">{item.label}</span>
-            </Link>
-          ))}
+          <nav className="relative z-10 flex flex-col gap-1">
+            {navItems.map((item) => renderSidebarItem(item))}
+          </nav>
 
-          <div className="mt-4 px-3 relative z-10">
-             <div className="flex items-center justify-between text-xs font-medium text-on-surface-variant bg-surface-container px-3 py-2 rounded-lg border border-surface-container-highest transition-all duration-200 hover:shadow-sm">
-                <span className="text-on-surface font-semibold">EN</span>
-                <span className="text-border">|</span>
-                <span className="hover:text-on-surface cursor-pointer transition-colors active:scale-95 inline-block">தமிழ்</span>
-             </div>
+          <div className="mt-2 border-t border-surface-container-highest/70 pt-3">
+            <div
+              className={`absolute left-3 right-3 h-11 rounded-xl bg-secondary shadow-sm shadow-secondary/25 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none ${
+                activeBottomIndex >= 0 ? 'opacity-100' : 'opacity-0'
+              }`}
+              style={{
+                top: `${16 + navItems.length * 48 + activeBottomIndex * 48}px`,
+                transform: isCollapsed ? 'scale(0.96)' : 'scale(1)',
+              }}
+            />
+
+            {bottomNavItems.map((item) => renderSidebarItem(item))}
           </div>
         </div>
       </aside>
 
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col md:ml-64 min-w-0">
-        
-        {/* Top Header */}
-        <header className="bg-surface-container/80 backdrop-blur-md h-20 sticky top-0 z-30 hidden md:flex items-center justify-between px-8 border-b border-surface-container-highest/50">
+      <div className="flex min-w-0 flex-1 flex-col transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] md:ml-0">
+        <header className="hidden h-20 items-center justify-between border-b border-surface-container-highest/50 bg-surface-container/80 px-8 backdrop-blur-md md:flex">
           <div>
-            <h1 className="text-2xl font-bold text-on-surface tracking-tight animate-in fade-in duration-300 ease-out">{getPageTitle()}</h1>
+            <h1 className="text-2xl font-bold tracking-tight text-on-surface">{getPageTitle()}</h1>
           </div>
-          
+
           <div className="flex items-center space-x-5">
-            <button className="relative p-2 text-on-surface-variant hover:bg-white hover:shadow-sm rounded-full transition-all border border-transparent hover:border-surface-container-highest active:scale-95 group">
-              <Bell className="w-5 h-5 group-hover:text-secondary transition-colors" strokeWidth={2} />
-              <span className="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-status-danger border-2 border-bg-subtle rounded-full animate-pulse"></span>
+            <button className="group relative rounded-full border border-transparent p-2 text-on-surface-variant transition-all duration-200 hover:border-surface-container-highest hover:bg-white hover:shadow-sm active:scale-95">
+              <Bell className="h-5 w-5 transition-colors group-hover:text-secondary" strokeWidth={2} />
+              <span className="absolute right-1.5 top-1.5 h-2.5 w-2.5 rounded-full border-2 border-bg-subtle bg-status-danger animate-pulse" />
             </button>
-            <button className="p-2 text-on-surface-variant hover:bg-white hover:shadow-sm rounded-full transition-all border border-transparent hover:border-surface-container-highest active:scale-95 group">
-              <HelpCircle className="w-5 h-5 group-hover:text-secondary transition-colors" strokeWidth={2} />
+
+            <button className="group rounded-full border border-transparent p-2 text-on-surface-variant transition-all duration-200 hover:border-surface-container-highest hover:bg-white hover:shadow-sm active:scale-95">
+              <HelpCircle className="h-5 w-5 transition-colors group-hover:text-secondary" strokeWidth={2} />
             </button>
-            
-            <div className="h-9 w-9 rounded-full bg-secondary-fixed border border-primary/20 flex items-center justify-center text-secondary overflow-hidden ml-2 shadow-inner cursor-pointer hover:bg-secondary/20 hover:scale-105 active:scale-95 transition-all">
-              <User className="w-5 h-5" strokeWidth={2} />
+
+            <div className="ml-2 flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-primary/20 bg-secondary-fixed text-secondary shadow-inner transition-all duration-200 hover:scale-105 hover:bg-secondary/20 active:scale-95">
+              <User className="h-5 w-5" strokeWidth={2} />
             </div>
           </div>
         </header>
 
-        {/* Page Content */}
-        <main className="flex-1 p-4 md:p-8 overflow-y-auto max-w-[1200px] w-full mx-auto animate-in fade-in slide-in-from-bottom-2 duration-300 ease-out motion-reduce:animate-none">
+        <main className="mx-auto flex w-full max-w-300 flex-1 overflow-y-auto p-4 md:p-8">
           {children}
         </main>
       </div>

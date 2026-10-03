@@ -66,11 +66,11 @@ export const DashboardPage: React.FC = () => {
   }
 
   return (
-    <div className="space-y-8 pb-12 animate-in fade-in slide-in-from-bottom-2 duration-300 ease-out motion-reduce:animate-none max-w-[1400px] mx-auto">
+    <div className="space-y-8 pb-12 animate-in fade-in slide-in-from-bottom-2 duration-300 ease-out motion-reduce:animate-none max-w-350 mx-auto">
       
       {showAdvisory && (
         <div className="bg-error/5 border border-error/20 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center gap-4 shadow-sm">
-          <div className="bg-error/10 p-2 rounded-xl text-error flex-shrink-0">
+          <div className="bg-error/10 p-2 rounded-xl text-error shrink-0">
             <AlertTriangle className="w-5 h-5" />
           </div>
           <div className="flex-1 min-w-0">
@@ -79,7 +79,7 @@ export const DashboardPage: React.FC = () => {
             </div>
             <div className="text-sm text-on-surface font-bold truncate">Surge detected in fraudulent IPO "Institutional Allotment" Telegram groups claiming zero lock-in allocations.</div>
           </div>
-          <div className="flex items-center gap-4 sm:ml-auto flex-shrink-0">
+          <div className="flex items-center gap-4 sm:ml-auto shrink-0">
             <a href="#" className="font-label-lg text-label-lg text-secondary hover:text-on-surface hover:translate-x-1 transition-all duration-200 flex items-center">
               Read Advisory <ArrowUpRight className="w-4 h-4 ml-1" />
             </a>
@@ -103,14 +103,14 @@ export const DashboardPage: React.FC = () => {
         <div className="flex items-center gap-3 w-full sm:w-auto">
           <Link 
             to="/history"
-            className="flex-1 sm:flex-none inline-flex justify-center items-center px-5 py-3 bg-surface-container-lowest border border-surface-container-highest text-on-surface font-label-lg text-label-lg rounded-xl hover:bg-surface-container hover:-translate-y-[1px] hover:shadow-md active:scale-[0.98] transition-all duration-200 shadow-sm"
+            className="flex-1 sm:flex-none inline-flex justify-center items-center px-5 py-3 bg-surface-container-lowest border border-surface-container-highest text-on-surface font-label-lg text-label-lg rounded-xl hover:bg-surface-container hover:-translate-y-px hover:shadow-md active:scale-[0.98] transition-all duration-200 shadow-sm"
           >
             <Clock className="w-4 h-4 mr-2" />
             View History
           </Link>
           <Link 
             to="/analyze"
-            className="flex-1 sm:flex-none inline-flex justify-center items-center px-6 py-3 bg-secondary text-white font-label-lg text-label-lg rounded-xl hover:bg-secondary/90 hover:-translate-y-[1px] hover:shadow-lg active:scale-[0.98] transition-all duration-200 shadow-sm"
+            className="flex-1 sm:flex-none inline-flex justify-center items-center px-6 py-3 bg-secondary text-white font-label-lg text-label-lg rounded-xl hover:bg-secondary/90 hover:-translate-y-px hover:shadow-lg active:scale-[0.98] transition-all duration-200 shadow-sm"
           >
             <Search className="w-4 h-4 mr-2" />
             Analyze Content
@@ -119,7 +119,7 @@ export const DashboardPage: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
-        <div className="bg-surface-container-lowest p-6 rounded-3xl border border-surface-container-highest shadow-sm flex flex-col justify-between hover:shadow-md hover:-translate-y-[1px] transition-all duration-200 group">
+        <div className="bg-surface-container-lowest p-6 rounded-3xl border border-surface-container-highest shadow-sm flex flex-col justify-between hover:shadow-md hover:-translate-y-px transition-all duration-200 group">
           <div className="flex justify-between items-start mb-6">
             <span className="font-label-md text-label-md font-bold text-on-surface-variant uppercase tracking-widest">Total Analyses</span>
             <div className="bg-surface-container p-2.5 rounded-xl border border-surface-container-highest group-hover:scale-110 transition-transform">
@@ -135,7 +135,7 @@ export const DashboardPage: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-surface-container-lowest p-6 rounded-3xl border border-surface-container-highest shadow-sm flex flex-col justify-between hover:shadow-md hover:-translate-y-[1px] transition-all duration-200 group">
+        <div className="bg-surface-container-lowest p-6 rounded-3xl border border-surface-container-highest shadow-sm flex flex-col justify-between hover:shadow-md hover:-translate-y-px transition-all duration-200 group">
           <div className="flex justify-between items-start mb-6">
             <span className="font-label-md text-label-md font-bold text-on-surface-variant uppercase tracking-widest">Potentially Risky</span>
             <div className="bg-error/10 p-2.5 rounded-xl border border-error/20 group-hover:scale-110 transition-transform">
@@ -151,7 +151,7 @@ export const DashboardPage: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-surface-container-lowest p-6 rounded-3xl border border-surface-container-highest shadow-sm flex flex-col justify-between hover:shadow-md hover:-translate-y-[1px] transition-all duration-200 group">
+        <div className="bg-surface-container-lowest p-6 rounded-3xl border border-surface-container-highest shadow-sm flex flex-col justify-between hover:shadow-md hover:-translate-y-px transition-all duration-200 group">
           <div className="flex justify-between items-start mb-6">
             <span className="font-label-md text-label-md font-bold text-on-surface-variant uppercase tracking-widest">Risk Signals Flagged</span>
             <div className="bg-secondary/10 p-2.5 rounded-xl border border-primary/20 group-hover:scale-110 transition-transform">
@@ -167,7 +167,7 @@ export const DashboardPage: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-surface-container-lowest p-6 rounded-3xl border border-surface-container-highest shadow-sm flex flex-col justify-between hover:shadow-md hover:-translate-y-[1px] transition-all duration-200 group">
+        <div className="bg-surface-container-lowest p-6 rounded-3xl border border-surface-container-highest shadow-sm flex flex-col justify-between hover:shadow-md hover:-translate-y-px transition-all duration-200 group">
           <div className="flex justify-between items-start mb-6">
             <span className="font-label-md text-label-md font-bold text-on-surface-variant uppercase tracking-widest">Verified Authentic</span>
             <div className="bg-tertiary-fixed/10 p-2.5 rounded-xl border border-tertiary-fixed-dim/20 group-hover:scale-110 transition-transform">
@@ -212,7 +212,7 @@ export const DashboardPage: React.FC = () => {
                   </div>
                   <h4 className="font-headline-lg text-headline-lg text-on-surface mb-3">Your safety journey starts here.</h4>
                   <p className="text-on-surface-variant mb-8 max-w-sm mx-auto text-lg">Analyze your first financial message to build your personalized safety overview.</p>
-                  <Link to="/analyze" className="inline-flex items-center px-8 py-4 bg-secondary text-white font-bold rounded-xl hover:bg-secondary/90 hover:-translate-y-[1px] active:scale-95 transition-all duration-200 shadow-md">
+                  <Link to="/analyze" className="inline-flex items-center px-8 py-4 bg-secondary text-white font-bold rounded-xl hover:bg-secondary/90 hover:-translate-y-px active:scale-95 transition-all duration-200 shadow-md">
                     Analyze Content <ArrowRight className="w-5 h-5 ml-2" />
                   </Link>
                 </div>
@@ -295,7 +295,7 @@ export const DashboardPage: React.FC = () => {
                   const timeStr = new Date(analysis.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
                   return (
-                    <div key={analysis._id} className="bg-surface-container-lowest rounded-3xl border border-surface-container-highest p-6 shadow-sm hover:shadow-md hover:-translate-y-[1px] transition-all duration-200 group">
+                    <div key={analysis._id} className="bg-surface-container-lowest rounded-3xl border border-surface-container-highest p-6 shadow-sm hover:shadow-md hover:-translate-y-px transition-all duration-200 group">
                       <div className="flex items-center justify-between mb-6">
                         <div className="flex items-center gap-3">
                           <span className="font-label-sm text-label-sm font-bold text-on-surface bg-surface-container border border-surface-container-highest px-3 py-1.5 rounded-lg uppercase tracking-widest flex items-center">
@@ -367,7 +367,7 @@ export const DashboardPage: React.FC = () => {
         <div className="space-y-6">
           <div className="bg-secondary-fixed rounded-3xl border border-primary/20 overflow-hidden shadow-sm">
             <div className="p-8">
-              <div className="w-12 h-12 bg-secondary rounded-xl flex items-center justify-center mb-6 shadow-md shadow-sm">
+              <div className="w-12 h-12 bg-secondary rounded-xl flex items-center justify-center mb-6 shadow-md">
                 <Search className="w-6 h-6 text-white" />
               </div>
               <h3 className="font-headline-lg text-headline-lg text-on-surface tracking-tight mb-4">Have a suspicious message?</h3>
@@ -381,7 +381,7 @@ export const DashboardPage: React.FC = () => {
                   <span className="text-on-surface-variant">OCR enabled</span>
                 </div>
               </div>
-              <Link to="/analyze" className="w-full inline-flex justify-center items-center px-6 py-4 bg-secondary text-white font-label-lg text-label-lg rounded-xl hover:bg-secondary/90 hover:-translate-y-[1px] active:scale-[0.98] transition-all duration-200 shadow-md">
+              <Link to="/analyze" className="w-full inline-flex justify-center items-center px-6 py-4 bg-secondary text-white font-label-lg text-label-lg rounded-xl hover:bg-secondary/90 hover:-translate-y-px active:scale-[0.98] transition-all duration-200 shadow-md">
                 Analyze Content Now <ArrowRight className="w-4 h-4 ml-2" />
               </Link>
             </div>
@@ -399,8 +399,8 @@ export const DashboardPage: React.FC = () => {
             </div>
             
             <div className="space-y-3">
-              <div className="bg-surface-container-lowest p-5 rounded-2xl border border-surface-container-highest shadow-sm hover:shadow-md hover:-translate-y-[1px] transition-all duration-200 group flex items-start gap-4">
-                <div className="bg-surface-container p-3 rounded-xl border border-surface-container-highest flex-shrink-0 group-hover:bg-secondary-fixed transition-colors">
+              <div className="bg-surface-container-lowest p-5 rounded-2xl border border-surface-container-highest shadow-sm hover:shadow-md hover:-translate-y-px transition-all duration-200 group flex items-start gap-4">
+                <div className="bg-surface-container p-3 rounded-xl border border-surface-container-highest shrink-0 group-hover:bg-secondary-fixed transition-colors">
                   <BarChart3 className="w-5 h-5 text-secondary" />
                 </div>
                 <div>
@@ -410,8 +410,8 @@ export const DashboardPage: React.FC = () => {
                 </div>
               </div>
 
-              <div className="bg-surface-container-lowest p-5 rounded-2xl border border-surface-container-highest shadow-sm hover:shadow-md hover:-translate-y-[1px] transition-all duration-200 group flex items-start gap-4">
-                <div className="bg-surface-container p-3 rounded-xl border border-surface-container-highest flex-shrink-0 group-hover:bg-secondary-fixed transition-colors">
+              <div className="bg-surface-container-lowest p-5 rounded-2xl border border-surface-container-highest shadow-sm hover:shadow-md hover:-translate-y-px transition-all duration-200 group flex items-start gap-4">
+                <div className="bg-surface-container p-3 rounded-xl border border-surface-container-highest shrink-0 group-hover:bg-secondary-fixed transition-colors">
                   <ShieldCheck className="w-5 h-5 text-secondary" />
                 </div>
                 <div>
@@ -421,8 +421,8 @@ export const DashboardPage: React.FC = () => {
                 </div>
               </div>
               
-              <div className="bg-surface-container-lowest p-5 rounded-2xl border border-surface-container-highest shadow-sm hover:shadow-md hover:-translate-y-[1px] transition-all duration-200 group flex items-start gap-4">
-                <div className="bg-surface-container p-3 rounded-xl border border-surface-container-highest flex-shrink-0 group-hover:bg-secondary-fixed transition-colors">
+              <div className="bg-surface-container-lowest p-5 rounded-2xl border border-surface-container-highest shadow-sm hover:shadow-md hover:-translate-y-px transition-all duration-200 group flex items-start gap-4">
+                <div className="bg-surface-container p-3 rounded-xl border border-surface-container-highest shrink-0 group-hover:bg-secondary-fixed transition-colors">
                   <Clock className="w-5 h-5 text-secondary" />
                 </div>
                 <div>
@@ -441,14 +441,14 @@ export const DashboardPage: React.FC = () => {
           <div className="mt-8">
             <h3 className="font-label-sm text-label-sm font-bold text-on-surface-variant uppercase tracking-widest mb-4">Direct Authority Verification</h3>
             <div className="space-y-3">
-              <a href="#" className="flex items-center justify-between p-4 bg-surface-container-lowest border border-surface-container-highest rounded-xl hover:shadow-sm hover:-translate-y-[1px] active:scale-[0.98] transition-all duration-200 group">
+              <a href="#" className="flex items-center justify-between p-4 bg-surface-container-lowest border border-surface-container-highest rounded-xl hover:shadow-sm hover:-translate-y-px active:scale-[0.98] transition-all duration-200 group">
                 <div className="flex items-center gap-3">
                   <CheckCircle className="w-4 h-4 text-secondary" />
                   <span className="font-label-lg text-label-lg text-on-surface">SEBI Recognized Intermediaries Portal</span>
                 </div>
                 <ExternalLink className="w-4 h-4 text-on-surface-variant group-hover:text-secondary transition-colors" />
               </a>
-              <a href="#" className="flex items-center justify-between p-4 bg-surface-container-lowest border border-surface-container-highest rounded-xl hover:shadow-sm hover:-translate-y-[1px] active:scale-[0.98] transition-all duration-200 group">
+              <a href="#" className="flex items-center justify-between p-4 bg-surface-container-lowest border border-surface-container-highest rounded-xl hover:shadow-sm hover:-translate-y-px active:scale-[0.98] transition-all duration-200 group">
                 <div className="flex items-center gap-3">
                   <AlertTriangle className="w-4 h-4 text-secondary" />
                   <span className="font-label-lg text-label-lg text-on-surface">RBI Sachet Unregistered Deposit Portal</span>
@@ -462,9 +462,9 @@ export const DashboardPage: React.FC = () => {
       </div>
 
       <div className="mt-12 bg-primary rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 relative overflow-hidden shadow-xl border border-primary-container">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-secondary rounded-full blur-[100px] opacity-20 -z-0"></div>
+        <div className="absolute top-0 right-0 w-64 h-64 bg-secondary rounded-full blur-[100px] opacity-20 z-0"></div>
         <div className="flex items-start gap-6 relative z-10 max-w-3xl">
-          <div className="bg-white/10 p-4 rounded-2xl flex-shrink-0">
+          <div className="bg-white/10 p-4 rounded-2xl shrink-0">
             <ShieldAlert className="w-8 h-8 text-secondary-light" />
           </div>
           <div>
@@ -472,7 +472,7 @@ export const DashboardPage: React.FC = () => {
             <h3 className="text-xl font-bold text-white leading-snug">No SEBI-registered broker or research analyst will ever ask you to transfer funds into a personal savings account or individual UPI handle.</h3>
           </div>
         </div>
-        <div className="relative z-10 flex-shrink-0 w-full sm:w-auto">
+        <div className="relative z-10 shrink-0 w-full sm:w-auto">
           <a href="#" className="flex items-center justify-center sm:justify-start px-6 py-4 bg-white text-error font-extrabold rounded-xl hover:bg-surface-container transition-colors shadow-lg">
             <PhoneCall className="w-5 h-5 mr-3" />
             National Cyber Crime: 1930
