@@ -10,7 +10,7 @@ import {
   EducationSection, 
   SafeActions 
 } from '../components/results';
-import { ArrowLeft, Clock, Shield, AlertTriangle } from 'lucide-react';
+import { ArrowLeft, Clock, ShieldCheck, AlertTriangle } from 'lucide-react';
 
 export const HistoryDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -41,24 +41,26 @@ export const HistoryDetailPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8 text-center py-20">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-6"></div>
-        <h3 className="text-xl font-medium text-gray-900 mb-2">Loading analysis details...</h3>
+      <div className="max-w-[1200px] mx-auto p-4 sm:p-6 lg:p-8 text-center py-20 flex flex-col items-center">
+        <div className="w-16 h-16 border-4 border-bg-subtle border-t-primary rounded-full animate-spin mb-6"></div>
+        <h3 className="text-xl font-bold text-navy mb-2 tracking-tight">Loading Report</h3>
+        <p className="text-text-secondary font-medium">Retrieving securely saved analysis data...</p>
       </div>
     );
   }
 
   if (error || !result) {
     return (
-      <div className="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
-        <button onClick={() => navigate('/history')} className="text-blue-600 hover:text-blue-800 font-medium flex items-center mb-6">
+      <div className="max-w-[1200px] mx-auto p-4 sm:p-6 lg:p-8 animate-in fade-in duration-500">
+        <button onClick={() => navigate('/history')} className="text-text-secondary hover:text-navy font-semibold flex items-center mb-6 bg-card px-4 py-2 rounded-lg border border-border shadow-sm transition-colors w-fit">
           <ArrowLeft className="w-4 h-4 mr-2" /> Back to History
         </button>
-        <div className="bg-white border border-red-200 p-8 rounded-xl text-center shadow-sm">
-          <AlertTriangle className="w-12 h-12 text-red-400 mx-auto mb-4" />
-          <h2 className="text-xl font-bold text-gray-900 mb-2">Analysis Not Found</h2>
-          <p className="text-gray-600 mb-6">{error || 'This analysis may have been deleted or does not exist.'}</p>
-          <Link to="/analyze" className="px-6 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors">
+        <div className="bg-card border border-status-danger/20 p-10 rounded-3xl text-center shadow-md max-w-2xl mx-auto relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-1 bg-status-danger/50"></div>
+          <AlertTriangle className="w-14 h-14 text-status-danger mx-auto mb-5" />
+          <h2 className="text-2xl font-extrabold text-navy mb-3 tracking-tight">Analysis Not Found</h2>
+          <p className="text-text-secondary mb-8 text-lg">{error || 'This report may have been permanently deleted.'}</p>
+          <Link to="/analyze" className="px-8 py-3.5 bg-primary text-white font-medium rounded-xl hover:bg-primary/90 transition-colors shadow-sm shadow-primary/20 inline-flex items-center">
             Analyze New Content
           </Link>
         </div>
@@ -67,18 +69,18 @@ export const HistoryDetailPage: React.FC = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto w-full">
-      <div className="flex items-center justify-between mb-6">
-        <button onClick={() => navigate('/history')} className="text-blue-600 hover:text-blue-800 font-medium flex items-center bg-blue-50 px-3 py-1.5 rounded-lg transition-colors">
-          <ArrowLeft className="w-4 h-4 mr-1.5" /> Back to History
+    <div className="max-w-[1200px] mx-auto w-full p-4 sm:p-6 lg:p-8 animate-in fade-in duration-500">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-4">
+        <button onClick={() => navigate('/history')} className="text-text-secondary hover:text-navy font-semibold flex items-center bg-card px-4 py-2 rounded-lg border border-border shadow-sm transition-colors w-fit">
+          <ArrowLeft className="w-4 h-4 mr-2" /> Back to History
         </button>
-        <div className="text-sm text-gray-500 flex items-center bg-white px-3 py-1.5 rounded-lg border border-gray-200">
-          <Clock className="w-4 h-4 mr-1.5" />
+        <div className="text-xs font-bold text-navy uppercase tracking-wider flex items-center bg-card px-4 py-2.5 rounded-lg border border-border shadow-sm">
+          <Clock className="w-4 h-4 mr-2 text-primary" />
           {new Date(result.createdAt).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })}
         </div>
       </div>
 
-      <div className="space-y-6">
+      <div className="space-y-8 max-w-3xl mx-auto">
         <RiskSummaryCard 
           riskLevel={result.riskLevel}
           riskSummary={result.riskSummary}
@@ -86,12 +88,15 @@ export const HistoryDetailPage: React.FC = () => {
           claimCount={result.claims?.length || 0}
         />
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <h3 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
-            <Shield className="w-5 h-5 text-gray-500 mr-2" /> Analyzed Content
-          </h3>
-          <div className="bg-gray-50 p-4 rounded-lg border border-gray-100 text-gray-700 font-medium italic whitespace-pre-wrap">
-            {result.inputPreview}
+        <div className="bg-card rounded-3xl shadow-sm border border-border overflow-hidden">
+          <div className="p-5 border-b border-border bg-bg-subtle flex items-center gap-2">
+            <ShieldCheck className="w-5 h-5 text-primary" />
+            <h3 className="font-bold text-navy">Original Analyzed Content</h3>
+          </div>
+          <div className="p-6">
+            <div className="bg-bg-subtle p-5 rounded-2xl border border-border text-text-main font-mono text-sm italic whitespace-pre-wrap leading-relaxed">
+              "{result.inputPreview}"
+            </div>
           </div>
         </div>
 
@@ -106,11 +111,9 @@ export const HistoryDetailPage: React.FC = () => {
         {result.claims && result.claims.length > 0 && (
           <>
             <ClaimsList claims={result.claims} />
-            {/* The result.claims includes the evidence, so we can extract it if needed, or EvidenceStatus uses the evidence array directly if we map it out. But in AnalyzePage we didn't pass evidence explicitly since claims contains it? Wait, let's look at AnalyzePage. */}
           </>
         )}
 
-        {/* EvidenceStatus needs a flat array of evidence across all claims usually, let's create it */}
         {result.claims && (
           <EvidenceStatus evidence={result.claims.flatMap((c: any) => c.evidence || [])} />
         )}

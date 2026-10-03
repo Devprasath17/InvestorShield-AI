@@ -39,8 +39,8 @@ export interface EducationItem {
   title: string;
   whyItMatters: string;
   explanation: string;
-  warningSigns: string[];
-  whatToCheck: string[];
+  whatToLookFor: string;
+  whatToCheck: string;
   safeHabit: string;
 }
 

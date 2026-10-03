@@ -27,29 +27,7 @@ Do not treat absence of evidence as proof of falsity.
 Do not make legal determinations.
 If evidence is insufficient, return Needs Verification or No Evidence Found.`,
       generationConfig: {
-        responseMimeType: 'application/json',
-        responseSchema: {
-          type: SchemaType.OBJECT,
-          properties: {
-            status: {
-              type: SchemaType.STRING,
-              description: 'The verification status of the claim based purely on searched evidence. Must be one of: Verified, Contradicted, Needs Verification, No Evidence Found'
-            },
-            explanation: {
-              type: SchemaType.STRING,
-              description: 'Why this status was chosen, referencing the retrieved facts.'
-            },
-            relevantText: {
-              type: SchemaType.STRING,
-              description: 'Your interpretation of the retrieved source that supports or contradicts the claim. Do not invent verbatim quotes unless they are in the search snippet.'
-            },
-            relationship: {
-              type: SchemaType.STRING,
-              description: 'How the evidence relates to the claim. Must be one of: Supports, Contradicts, Context, Insufficient Evidence'
-            }
-          },
-          required: ['status', 'explanation', 'relationship']
-        }
+        // Removed responseMimeType and responseSchema to support Google Search Grounding
       }
     });
   }
@@ -84,9 +62,18 @@ If evidence is insufficient, return Needs Verification or No Evidence Found.`,
   }
 
   private async verifySingleClaim(claim: Claim): Promise<Claim> {
-    const prompt = `Analyze and verify this financial claim in the Indian context: "${claim.text}"
+const prompt = `Analyze and verify this financial claim in the Indian context: "${claim.text}"
 If it claims SEBI/RBI registration or approval, look for official records.
-If it claims guaranteed returns, search for regulatory warnings regarding guaranteed returns.`;
+If it claims guaranteed returns, search for regulatory warnings regarding guaranteed returns.
+
+You MUST respond ONLY with a valid JSON object matching this schema:
+{
+  "status": "Verified | Contradicted | Needs Verification | No Evidence Found",
+  "explanation": "Why this status was chosen, referencing the retrieved facts.",
+  "relevantText": "Your interpretation of the retrieved source that supports or contradicts the claim. Do not invent verbatim quotes unless they are in the search snippet.",
+  "relationship": "Supports | Contradicts | Context | Insufficient Evidence"
+}
+Do NOT include any markdown text outside the JSON block.`;
 
     const result = await this.model.generateContent(prompt);
     const responseText = result.response.text();
@@ -94,7 +81,14 @@ If it claims guaranteed returns, search for regulatory warnings regarding guaran
 
     let parsed: any;
     try {
-      parsed = JSON.parse(responseText);
+      // Robust JSON parsing
+      let jsonStr = responseText.trim();
+      if (jsonStr.startsWith('```json')) {
+        jsonStr = jsonStr.replace(/```json/g, '').replace(/```/g, '').trim();
+      } else if (jsonStr.startsWith('```')) {
+        jsonStr = jsonStr.replace(/```/g, '').trim();
+      }
+      parsed = JSON.parse(jsonStr);
     } catch (e) {
       throw new Error("Failed to parse Gemini JSON response");
     }

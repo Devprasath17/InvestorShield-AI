@@ -35,10 +35,15 @@ export const verifyClaims = async (req: Request, res: Response) => {
       claims: verifiedClaims,
     });
   } catch (error) {
-    console.error('Verification Controller Error:', error);
-    return res.status(500).json({
-      success: false,
-      error: 'Independent verification is temporarily unavailable. Please try again.',
+    // Instead of 500, return 200 with fallback data so the pipeline continues
+    const fallbackClaims = (req.body.claims || []).map((c: any) => ({
+      ...c,
+      status: 'Needs Verification',
+      explanation: 'Independent verification is temporarily unavailable.'
+    }));
+    return res.status(200).json({
+      success: true,
+      claims: fallbackClaims,
     });
   }
 };

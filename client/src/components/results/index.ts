@@ -5,3 +5,4 @@ export * from './EvidenceStatus';
 export * from './ExtractedText';
 export * from './EducationSection';
 export * from './SafeActions';
+export * from './RiskSignalMap';
