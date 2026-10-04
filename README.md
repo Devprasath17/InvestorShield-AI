@@ -18,7 +18,7 @@
 
 <br/>
 
-**[Features](#-key-features) · [Architecture](#-architecture) · [Setup](#-quick-start) · [API Reference](#-api-reference)**
+**[Features](#-key-features) · [Architecture](#-architecture) · [Setup](#-setup--installation) · [API Reference](#-api-reference)**
 
 </div>
 
@@ -26,9 +26,9 @@
 
 <br/>
 
-> **Product screenshots coming soon**
+InvestorShield AI is a working prototype developed for demonstrating an end-to-end investor safety workflow. The current implementation covers suspicious-content analysis, screenshot OCR, claim extraction, evidence-aware verification, investor education, and safety guidance.
 
-<br/>
+InvestorShield AI focuses specifically on investor safety by combining suspicious-content detection, financial claim extraction, evidence-aware verification, explainable results, and investor education in a single workflow.
 
 <div align="center">
 
@@ -38,7 +38,26 @@
 
 </div>
 
-<br/>
+---
+
+## 🚀 Live Demo
+
+**Frontend:** [https://investor-shield-ai.vercel.app](https://investor-shield-ai.vercel.app/)  
+**Backend:** [https://investorshield-ai.onrender.com](https://investorshield-ai.onrender.com/)  
+**GitHub:** [https://github.com/Devprasath17/InvestorShield-AI](https://github.com/Devprasath17/InvestorShield-AI)
+
+---
+
+## 🖼️ Product Preview
+
+InvestorShield AI is implemented as a working prototype demonstrating the complete investor-safety workflow:
+`Detect → Verify → Understand → Educate → Act Carefully`
+
+*The screenshots below show the current working product interface and demonstrate the implemented analysis, verification, learning, and safety workflows.*
+
+> **Product screenshots can be added to `docs/screenshots/` as the project demo assets are finalized.**
+
+---
 
 ## 🚨 The Problem
 
@@ -61,35 +80,15 @@ Investors in Bharat are increasingly targeted with deceptive messages across Wha
 
 InvestorShield AI bridges the gap between complex financial regulations and the end user by offering a simple, verifiable diagnostic tool. 
 
-Users can paste a suspicious message or upload a screenshot. The platform utilizes advanced Optical Character Recognition (OCR) to extract the text, and leverages Google's Gemini AI to identify high-risk signals commonly associated with financial fraud.
+Users can paste a suspicious message or upload a screenshot. The platform utilizes Optical Character Recognition (OCR) to extract the text, and leverages Google's Gemini AI to identify high-risk signals commonly associated with financial fraud.
 
 Extracted claims are then dynamically verified against trusted sources using Google Search Grounding to check for real-world evidence. Finally, the user receives an evidence-aware result presented in plain language, paired with actionable safety habits.
-
-<div align="center">
-
-```text
-📩 Message / Screenshot
-        ↓
-🔎 Detect
-        ↓
-🧠 Analyze
-        ↓
-🔐 Verify
-        ↓
-💬 Explain
-        ↓
-📚 Educate
-        ↓
-🛡️ Safer Action
-```
-
-</div>
 
 ---
 
 # 🎯 Built for A + E + C
 
-InvestorShield AI is strategically aligned with three core domains to create a holistic safety net:
+InvestorShield AI is strategically aligned with three core domains to create a holistic safety net through one workflow: `Detect → Verify → Understand → Educate → Act Carefully`.
 
 | 🛡️ A | 🧠 E | 📚 C |
 | :--- | :--- | :--- |
@@ -101,19 +100,19 @@ InvestorShield AI is strategically aligned with three core domains to create a h
 ## ✨ Key Features
 
 ### 🔍 Suspicious Content Analysis
-Identify risk signals in investment-related messages and screenshots in seconds.
+Identify risk signals in investment-related messages and screenshots.
 
 ### 📸 Screenshot OCR
-Extract text reliably from uploaded screenshots using Tesseract.js.
+Extract text from uploaded screenshots using OCR.
 
 ### 🧠 AI-Powered Analysis
 Analyze claims and explain potential risk indicators utilizing Gemini's advanced reasoning.
 
 ### 🔎 Evidence Verification
-Verify relevant claims against available trusted sources through Google Search Grounding.
+Verify relevant claims against available trusted sources.
 
 ### 📊 Evidence-Aware Results
-Provide strict categorical results based on facts:
+Provide categorical results:
 * ✅ Verified
 * ⚠️ Needs Verification
 * ❌ Contradicted
@@ -123,7 +122,7 @@ Provide strict categorical results based on facts:
 Search, filter, and explore practical investor-safety education.
 
 ### 🌐 Bharat-First Experience
-Simple language, visual explanations, low cognitive load, and English/Tamil support.
+Simple language, visual explanations, and English/Tamil support where implemented.
 
 ### 🛡️ Safety Guardrails
 Designed explicitly without investment recommendations, stock tips, or buy/sell signals.
@@ -152,13 +151,13 @@ flowchart LR
 User submits an investment-related message or screenshot.
 
 ### 02 — Extract
-OCR extracts readable content from the image, bypassing obfuscation attempts.
+OCR extracts readable text from uploaded screenshots for further analysis.
 
 ### 03 — Detect
 The AI system identifies suspicious signals (e.g., urgency) and extracts definitive financial claims.
 
 ### 04 — Verify
-Relevant claims are checked against available trusted evidence and official registries.
+Evidence verification uses available trusted evidence, including validated official sources where applicable.
 
 ### 05 — Explain
 The evidence result is presented in easily understandable, non-academic language.
@@ -167,7 +166,7 @@ The evidence result is presented in easily understandable, non-academic language
 The user receives relevant, context-aware safety-learning content based on their specific risk indicators.
 
 ### 07 — Act Carefully
-The platform encourages a 24-hour cooling period and independent verification before any action.
+The platform encourages users to pause, independently verify important information, and act carefully before transferring money or sharing sensitive information.
 
 ---
 
@@ -189,14 +188,15 @@ We categorize claims into four strict evidence states to prevent false certainty
 
 ## 📚 Investor Safety Learning Hub
 
-The platform includes a fully functional, interactive educational repository:
-* 🔎 **Real-time search** against topics and safety habits.
-* 🏷️ **Category filtering** for targeted learning (e.g., High-Risk Signals).
-* 🔗 **Learn More navigation** linking cards to deep-dive content.
-* 📖 **Detailed learning pages** explaining "Why This Matters" and "What to Look For".
-* ✅ **Quick Safety Checklist** for interactive diagnostics.
-* 🔄 **Related Topics** to encourage endless learning.
-* 📱 **Responsive design** optimized for all devices.
+The platform includes an interactive educational repository:
+* 🔎 **Real-time search**
+* 🏷️ **Category filtering** 
+* 🔗 **Learn More navigation** 
+* 📖 **Detailed learning pages** 
+* ✅ **Quick Safety Checklist** for practical verification.
+* 🔄 **Related Topics** 
+* 📱 **Responsive design** 
+* 🌐 **English/Tamil educational content** where implemented.
 
 ```text
 Learn → Check → Verify → Decide Carefully
@@ -204,15 +204,47 @@ Learn → Check → Verify → Decide Carefully
 
 ---
 
-## 💻 Tech Stack
+## 🌐 Bharat-First Design
+
+Designed with the Indian user in mind:
+* English + Tamil support for educational content where implemented.
+* Simple language focused on readability.
+* Visual risk/status indicators (colors and icons) for low cognitive load.
+* Accessible, responsive, and mobile-friendly interface.
+
+---
+
+## 🛡️ Safety Guardrails
+
+**What InvestorShield AI does NOT do:**
+
+* Does not provide investment advice
+* Does not recommend stocks
+* Does not provide buy/sell signals
+* Does not manage portfolios
+* Does not predict market prices
+* Does not treat AI pattern detection as definitive proof of fraud
+* Does not convert "No Evidence Found" into "False"
+* Does not fabricate evidence
+* Does not expose API keys
+
+> **We help users understand what to verify — not what to invest in.**
+> 
+> **Human decision remains final.**
+
+---
+
+## 💻 Technology Stack
 
 | Layer | Technology |
 | :--- | :--- |
-| **Frontend** | React 19, Vite, TypeScript |
-| **Styling** | Tailwind CSS v4, Lucide Icons |
+| **Frontend** | React, Vite, TypeScript |
+| **Styling** | Tailwind CSS, Lucide Icons |
 | **Backend** | Node.js, Express.js, TypeScript |
-| **AI** | Google Gemini API (`@google/generative-ai`) |
-| **OCR & Processing** | Tesseract.js, Sharp, Multer |
+| **AI** | Google Gemini API |
+| **OCR** | Tesseract.js |
+| **Image Processing** | Sharp |
+| **Uploads** | Multer |
 | **Database** | MongoDB Atlas, Mongoose |
 
 ---
@@ -271,10 +303,10 @@ InvestorShield-AI/
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Setup / Installation
 
 ### Prerequisites
-* Node.js (v18+)
+* Node.js
 * npm
 * MongoDB Atlas Cluster (or local MongoDB)
 * Google Gemini API Key
@@ -299,31 +331,21 @@ cd ../client
 npm install
 ```
 
-### Environment Variables
+---
+
+## 🔐 Environment Variables
 
 **Server (`server/.env`):**
 ```env
-PORT=5000
-MONGODB_URI=<your_mongodb_connection_string>
-GEMINI_API_KEY=<your_gemini_api_key>
-CLIENT_URL=http://localhost:5173
+PORT=
+MONGODB_URI=
+GEMINI_API_KEY=
+CLIENT_URL=
 ```
 
 **Client (`client/.env`):**
 ```env
-VITE_API_URL=http://localhost:5000
-```
-
-### Run
-
-**Backend (from `/server`):**
-```bash
-npm run dev
-```
-
-**Frontend (from `/client`):**
-```bash
-npm run dev
+VITE_API_URL=
 ```
 
 ---
@@ -332,43 +354,38 @@ npm run dev
 
 | Method | Endpoint | Purpose |
 | :--- | :--- | :--- |
+| `GET` | `/api/health` | Check backend health status. |
 | `POST` | `/api/analyze/text` | Analyze raw text for risk signals and claims. |
 | `POST` | `/api/analyze/image` | Extract text via OCR and analyze an uploaded image/screenshot. |
 | `POST` | `/api/verify` | Verify extracted claims against trusted sources. |
 | `GET` | `/api/education/topics` | Retrieve the curriculum of educational topics. |
 | `GET` | `/api/history` | Retrieve the user's past analyses. |
+| `POST` | `/api/history` | Save a new analysis history record. |
+| `GET` | `/api/history/:id` | Retrieve a specific analysis record by ID. |
+| `DELETE`| `/api/history/:id` | Delete a specific analysis record. |
 
 ---
 
-# 🛡️ Security & Responsible AI
+## 🔒 Security
 
 **Implemented Protections:**
 * **Helmet**: Secure HTTP headers.
 * **CORS**: Restricted origins.
-* **Rate Limiting**: `express-rate-limit` prevents brute-force (100 req / 15 min).
-* **Upload Limits**: Strict Multer payload constraints.
-* **Input Validation**: Strict JSON payload constraints (100kb).
-* **Environment Secrets**: API keys securely managed via `.env`.
-
-### What InvestorShield AI Does NOT Do
-
-❌ Investment advice  
-❌ Stock tips  
-❌ Buy/Sell recommendations  
-❌ Portfolio management  
-❌ Guaranteed financial outcomes  
-
-> **We help users understand what to verify — not what to invest in.**
+* **Rate Limiting**: API rate limiting to prevent abuse.
+* **Multer file-size validation**: Strict file size limits for image uploads.
+* **Request Validation**: Strict JSON payload constraints.
+* **Environment Variables**: API key protection.
 
 ---
 
 ## ⚠️ Limitations
 
-* AI can make mistakes or misinterpret complex financial nuance.
-* Verification depends heavily on available trusted evidence and search indexing.
-* **No Evidence Found does not mean False.**
-* External AI/search services may experience downtime or rate limits.
-* The platform is an educational diagnostic aid, not a certified financial advisory service.
+* Evidence availability depends on accessible trusted sources.
+* AI analysis can produce uncertain results and should not be treated as definitive proof of fraud.
+* OCR quality depends on screenshot clarity.
+* External AI/evidence services may occasionally be unavailable.
+* InvestorShield AI does not replace official regulatory or legal verification.
+* The system is not financial advice.
 
 ---
 
@@ -384,7 +401,7 @@ npm run dev
 
 ### 🔜 Next
 * More regional Indian languages
-* Expanded trusted-source coverage (Direct MCA/SEBI API integrations)
+* Expanded trusted-source integrations (Future versions can expand the range of trusted regulatory and institutional sources used for evidence verification)
 * More financial scam patterns
 * Improved web accessibility features
 * Stronger low-bandwidth experience
@@ -413,15 +430,3 @@ npm run dev
 ---
 
 > **Disclaimer:** InvestorShield AI is an educational and safety-support tool. It does not provide investment, legal, or financial advice and does not guarantee that any message, claim, or opportunity is legitimate or fraudulent. Users should independently verify important financial information through appropriate official and trusted sources before taking action.
-
-<br/>
-
-<div align="center">
-
-### 🛡️ InvestorShield AI
-
-**Detect. Verify. Understand. Invest Safer.**
-
-Built to help people pause, verify, and understand before they act.
-
-</div>
