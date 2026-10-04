@@ -70,9 +70,9 @@ export const generateEducation = async (riskIndicators: any[], language: string 
   }
 };
 
-export const getEducationTopics = async (): Promise<{ success: boolean, topics?: any[], error?: string }> => {
+export const getEducationTopics = async (language: string = 'en'): Promise<{ success: boolean, topics?: any[], error?: string }> => {
   try {
-    const response = await axios.get(`${API_URL}/api/education/topics`);
+    const response = await axios.get(`${API_URL}/api/education/topics?language=${language}`);
     return response.data;
   } catch (error: any) {
     if (error.response && error.response.data) {

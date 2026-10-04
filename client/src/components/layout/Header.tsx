@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Shield, HelpCircle, Globe } from 'lucide-react';
+import { Shield, HelpCircle } from 'lucide-react';
+import { useLanguage } from '../../i18n';
 
 export const Header: React.FC = () => {
   const location = useLocation();
+  const { language, setLanguage, t } = useLanguage();
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -17,18 +19,18 @@ export const Header: React.FC = () => {
           </div>
           <div className="flex flex-col">
             <span className="text-xl font-bold text-gray-900 tracking-tight leading-none">InvestorShield AI</span>
-            <span className="text-xs text-gray-500 font-medium mt-1">Smarter Analysis. Safer Investments.</span>
+            <span className="text-xs text-gray-500 font-medium mt-1">{t('nav.tagline')}</span>
           </div>
         </Link>
 
         {/* Center: Navigation */}
         <nav className="hidden md:flex space-x-1">
           {[
-            { path: '/', label: 'Home' },
-            { path: '/analyze', label: 'Analyze' },
-            { path: '/learn', label: 'Learn' },
-            { path: '/history', label: 'History' },
-            { path: '/about', label: 'About' }
+            { path: '/', label: t('nav.home') },
+            { path: '/analyze', label: t('nav.analyze') },
+            { path: '/learn', label: t('nav.learn') },
+            { path: '/history', label: t('nav.history') },
+            { path: '/about', label: t('nav.about') }
           ].map((item) => (
             <Link 
               key={item.path}
@@ -46,11 +48,23 @@ export const Header: React.FC = () => {
 
         {/* Right: Actions */}
         <div className="flex items-center space-x-4">
-          <div className="hidden sm:flex items-center text-sm text-gray-500 font-medium border border-gray-200 rounded-lg px-2 py-1.5 cursor-not-allowed">
-            <Globe className="w-4 h-4 mr-1.5 text-gray-400" />
-            <span className="text-gray-900">EN</span>
-            <span className="mx-1 text-gray-300">|</span>
-            <span className="text-gray-400">தமிழ்</span>
+          <div className="hidden sm:flex items-center text-sm font-medium border border-gray-200 rounded-lg p-1">
+            <button 
+              onClick={() => setLanguage('en')}
+              className={`px-2 py-1 rounded-md transition-colors ${language === 'en' ? 'bg-gray-100 text-gray-900' : 'text-gray-500 hover:text-gray-900'}`}
+              aria-label="Switch language to English"
+              aria-pressed={language === 'en'}
+            >
+              EN
+            </button>
+            <button 
+              onClick={() => setLanguage('ta')}
+              className={`px-2 py-1 rounded-md transition-colors ${language === 'ta' ? 'bg-gray-100 text-gray-900' : 'text-gray-500 hover:text-gray-900'}`}
+              aria-label="Switch language to Tamil"
+              aria-pressed={language === 'ta'}
+            >
+              தமிழ்
+            </button>
           </div>
           
           <button className="hidden sm:flex text-gray-400 hover:text-gray-600 transition-colors">
@@ -61,7 +75,7 @@ export const Header: React.FC = () => {
             to="/analyze" 
             className="hidden sm:inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 shadow-sm transition-colors"
           >
-            Analyze Content
+            {t('nav.analyzeContent')}
           </Link>
 
           {/* Mobile menu button (visual only for now) */}

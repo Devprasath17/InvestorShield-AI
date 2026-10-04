@@ -19,8 +19,10 @@ import {
   PhoneCall,
   Filter
 } from 'lucide-react';
+import { useLanguage } from '../i18n';
 
 export const DashboardPage: React.FC = () => {
+  const { t } = useLanguage();
   const [recentAnalyses, setRecentAnalyses] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAdvisory, setShowAdvisory] = useState(true);
@@ -93,12 +95,12 @@ export const DashboardPage: React.FC = () => {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6 mb-8">
         <div>
           <h2 className="font-display-lg text-display-lg text-secondary tracking-tight mb-3 flex items-center flex-wrap gap-4">
-            Good morning, Investor
+            {t('dashboard.greeting')}
             <span className="inline-flex items-center px-3 py-1 bg-tertiary-fixed/10 border border-tertiary-fixed-dim/20 text-on-tertiary-container font-label-md text-label-md rounded-lg uppercase tracking-widest shadow-sm">
-              <ShieldCheck className="w-3.5 h-3.5 mr-1.5 text-on-tertiary-container" /> Protected
+              <ShieldCheck className="w-3.5 h-3.5 mr-1.5 text-on-tertiary-container" /> {t('dashboard.protected')}
             </span>
           </h2>
-          <p className="text-font-body-md text-body-md text-lg">Your financial safety overview <span className="mx-2">•</span> Stay informed. Stay cautious.</p>
+          <p className="text-font-body-md text-body-md text-lg">{t('dashboard.overview')} <span className="mx-2">•</span> {t('dashboard.stayInformed')}</p>
         </div>
         <div className="flex items-center gap-3 w-full sm:w-auto">
           <Link 
@@ -106,14 +108,14 @@ export const DashboardPage: React.FC = () => {
             className="flex-1 sm:flex-none inline-flex justify-center items-center px-5 py-3 bg-surface-container-lowest border border-surface-container-highest text-on-surface font-label-lg text-label-lg rounded-xl hover:bg-surface-container hover:-translate-y-px hover:shadow-md active:scale-[0.98] transition-all duration-200 shadow-sm"
           >
             <Clock className="w-4 h-4 mr-2" />
-            View History
+            {t('dashboard.btnHistory')}
           </Link>
           <Link 
             to="/analyze"
             className="flex-1 sm:flex-none inline-flex justify-center items-center px-6 py-3 bg-secondary text-white font-label-lg text-label-lg rounded-xl hover:bg-secondary/90 hover:-translate-y-px hover:shadow-lg active:scale-[0.98] transition-all duration-200 shadow-sm"
           >
             <Search className="w-4 h-4 mr-2" />
-            Analyze Content
+            {t('dashboard.btnAnalyze')}
           </Link>
         </div>
       </div>
@@ -121,7 +123,7 @@ export const DashboardPage: React.FC = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
         <div className="bg-surface-container-lowest p-6 rounded-3xl border border-surface-container-highest shadow-sm flex flex-col justify-between hover:shadow-md hover:-translate-y-px transition-all duration-200 group">
           <div className="flex justify-between items-start mb-6">
-            <span className="font-label-md text-label-md font-bold text-on-surface-variant uppercase tracking-widest">Total Analyses</span>
+            <span className="font-label-md text-label-md font-bold text-on-surface-variant uppercase tracking-widest">{t('dashboard.statTotal')}</span>
             <div className="bg-surface-container p-2.5 rounded-xl border border-surface-container-highest group-hover:scale-110 transition-transform">
               <FileSearch className="w-5 h-5 text-on-surface" />
             </div>
@@ -129,15 +131,15 @@ export const DashboardPage: React.FC = () => {
           <div className="flex items-end justify-between">
             <h3 className="font-display-lg text-display-lg text-on-surface tracking-tighter leading-none">{totalAnalyses}</h3>
             <div className="flex flex-col items-end">
-              <span className="font-body-md text-body-md text-on-surface-variant">Analyzed messages &</span>
-              <span className="font-label-md text-label-md text-secondary">100% active</span>
+              <span className="font-body-md text-body-md text-on-surface-variant">{t('dashboard.statTotalDesc')}</span>
+              <span className="font-label-md text-label-md text-secondary">{t('dashboard.statTotalActive')}</span>
             </div>
           </div>
         </div>
 
         <div className="bg-surface-container-lowest p-6 rounded-3xl border border-surface-container-highest shadow-sm flex flex-col justify-between hover:shadow-md hover:-translate-y-px transition-all duration-200 group">
           <div className="flex justify-between items-start mb-6">
-            <span className="font-label-md text-label-md font-bold text-on-surface-variant uppercase tracking-widest">Potentially Risky</span>
+            <span className="font-label-md text-label-md font-bold text-on-surface-variant uppercase tracking-widest">{t('dashboard.statRisky')}</span>
             <div className="bg-error/10 p-2.5 rounded-xl border border-error/20 group-hover:scale-110 transition-transform">
               <ShieldAlert className="w-5 h-5 text-error" />
             </div>
@@ -145,15 +147,15 @@ export const DashboardPage: React.FC = () => {
           <div className="flex items-end justify-between">
             <h3 className="font-display-lg text-display-lg text-error tracking-tighter leading-none">{potentiallyRiskyCount}</h3>
             <div className="flex flex-col items-end">
-              <span className="font-body-md text-body-md text-on-surface-variant">Containing manipulation</span>
-              <span className="font-label-sm text-label-sm font-bold text-error bg-error/10 px-2 py-0.5 rounded mt-1 uppercase tracking-wider">Caution Required</span>
+              <span className="font-body-md text-body-md text-on-surface-variant">{t('dashboard.statRiskyDesc')}</span>
+              <span className="font-label-sm text-label-sm font-bold text-error bg-error/10 px-2 py-0.5 rounded mt-1 uppercase tracking-wider">{t('dashboard.statRiskyCaution')}</span>
             </div>
           </div>
         </div>
 
         <div className="bg-surface-container-lowest p-6 rounded-3xl border border-surface-container-highest shadow-sm flex flex-col justify-between hover:shadow-md hover:-translate-y-px transition-all duration-200 group">
           <div className="flex justify-between items-start mb-6">
-            <span className="font-label-md text-label-md font-bold text-on-surface-variant uppercase tracking-widest">Risk Signals Flagged</span>
+            <span className="font-label-md text-label-md font-bold text-on-surface-variant uppercase tracking-widest">{t('dashboard.statSignals')}</span>
             <div className="bg-secondary/10 p-2.5 rounded-xl border border-primary/20 group-hover:scale-110 transition-transform">
               <BarChart3 className="w-5 h-5 text-secondary" />
             </div>
@@ -161,7 +163,7 @@ export const DashboardPage: React.FC = () => {
           <div className="flex items-end justify-between">
             <h3 className="font-display-lg text-display-lg text-on-surface tracking-tighter leading-none">{totalRiskSignals}</h3>
             <div className="flex flex-col items-end">
-              <span className="font-body-md text-body-md text-on-surface-variant">Specific tactics parsed</span>
+              <span className="font-body-md text-body-md text-on-surface-variant">{t('dashboard.statSignalsDesc')}</span>
               <span className="font-label-sm text-label-sm font-bold text-on-surface bg-surface-container border border-surface-container-highest px-2 py-0.5 rounded mt-1">{sortedRiskCategories.length} distinct classes</span>
             </div>
           </div>
@@ -169,7 +171,7 @@ export const DashboardPage: React.FC = () => {
 
         <div className="bg-surface-container-lowest p-6 rounded-3xl border border-surface-container-highest shadow-sm flex flex-col justify-between hover:shadow-md hover:-translate-y-px transition-all duration-200 group">
           <div className="flex justify-between items-start mb-6">
-            <span className="font-label-md text-label-md font-bold text-on-surface-variant uppercase tracking-widest">Verified Authentic</span>
+            <span className="font-label-md text-label-md font-bold text-on-surface-variant uppercase tracking-widest">{t('dashboard.statVerified')}</span>
             <div className="bg-tertiary-fixed/10 p-2.5 rounded-xl border border-tertiary-fixed-dim/20 group-hover:scale-110 transition-transform">
               <CheckCircle className="w-5 h-5 text-on-tertiary-container" />
             </div>
@@ -177,8 +179,8 @@ export const DashboardPage: React.FC = () => {
           <div className="flex items-end justify-between">
             <h3 className="font-display-lg text-display-lg text-on-tertiary-container tracking-tighter leading-none">{totalVerifiedClaims}</h3>
             <div className="flex flex-col items-end">
-              <span className="font-body-md text-body-md text-on-surface-variant">Legitimate entities</span>
-              <span className="font-label-sm text-label-sm font-bold text-on-tertiary-container bg-tertiary-fixed/20 px-2 py-0.5 rounded mt-1 uppercase tracking-wider">Corroborated</span>
+              <span className="font-body-md text-body-md text-on-surface-variant">{t('dashboard.statVerifiedDesc')}</span>
+              <span className="font-label-sm text-label-sm font-bold text-on-tertiary-container bg-tertiary-fixed/20 px-2 py-0.5 rounded mt-1 uppercase tracking-wider">{t('dashboard.statVerifiedCorroborated')}</span>
             </div>
           </div>
         </div>
@@ -194,9 +196,9 @@ export const DashboardPage: React.FC = () => {
                   <div className="bg-secondary-fixed p-2 rounded-lg mr-3 shadow-inner border border-primary/20">
                     <ShieldCheck className="w-6 h-6 text-secondary" />
                   </div>
-                  Your Safety Overview
+                  {t('dashboard.safetyOverview')}
                 </h3>
-                <p className="font-body-md text-body-md text-on-surface-variant">Aggregated risk signals identified across your analyzed submissions <span className="mx-2">•</span> Systematic threat breakdown</p>
+                <p className="font-body-md text-body-md text-on-surface-variant">{t('dashboard.safetyDesc')}</p>
               </div>
               <div className="flex items-center gap-4 font-label-md text-label-md text-on-surface-variant">
                 <div className="flex items-center"><span className="w-2.5 h-2.5 rounded-sm bg-error mr-2"></span> High Severity</div>
@@ -210,10 +212,10 @@ export const DashboardPage: React.FC = () => {
                   <div className="w-20 h-20 bg-surface-container rounded-full flex items-center justify-center mx-auto mb-6 border border-surface-container-highest">
                     <BarChart3 className="w-8 h-8 text-on-surface-variant" />
                   </div>
-                  <h4 className="font-headline-lg text-headline-lg text-on-surface mb-3">Your safety journey starts here.</h4>
-                  <p className="text-on-surface-variant mb-8 max-w-sm mx-auto text-lg">Analyze your first financial message to build your personalized safety overview.</p>
+                  <h4 className="font-headline-lg text-headline-lg text-on-surface mb-3">{t('dashboard.recentEmpty')}</h4>
+                  <p className="text-on-surface-variant mb-8 max-w-sm mx-auto text-lg">{t('dashboard.recentEmptyDesc')}</p>
                   <Link to="/analyze" className="inline-flex items-center px-8 py-4 bg-secondary text-white font-bold rounded-xl hover:bg-secondary/90 hover:-translate-y-px active:scale-95 transition-all duration-200 shadow-md">
-                    Analyze Content <ArrowRight className="w-5 h-5 ml-2" />
+                    {t('dashboard.btnAnalyze')} <ArrowRight className="w-5 h-5 ml-2" />
                   </Link>
                 </div>
               ) : sortedRiskCategories.length === 0 ? (
@@ -221,8 +223,8 @@ export const DashboardPage: React.FC = () => {
                   <div className="w-20 h-20 bg-tertiary-fixed/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-tertiary-fixed-dim/20">
                     <CheckCircle className="w-8 h-8 text-on-tertiary-container" />
                   </div>
-                  <h4 className="font-headline-lg text-headline-lg text-on-surface mb-3">All clear!</h4>
-                  <p className="text-on-surface-variant text-lg">No risk signals have been detected in your recent history.</p>
+                  <h4 className="font-headline-lg text-headline-lg text-on-surface mb-3">{t('dashboard.noRisks')}</h4>
+                  <p className="text-on-surface-variant text-lg">{t('dashboard.noRisksDesc')}</p>
                 </div>
               ) : (
                 <div className="space-y-8">
@@ -273,8 +275,8 @@ export const DashboardPage: React.FC = () => {
           <div>
             <div className="flex items-end justify-between mb-6">
               <div>
-                <h3 className="font-headline-lg text-headline-lg text-on-surface tracking-tight">Recent Analyses</h3>
-                <p className="font-body-md text-body-md text-on-surface-variant mt-1">Real-time breakdown of parsed tips and notifications</p>
+                <h3 className="font-headline-lg text-headline-lg text-on-surface tracking-tight">{t('dashboard.recentTitle')}</h3>
+                <p className="font-body-md text-body-md text-on-surface-variant mt-1">{t('dashboard.recentDesc')}</p>
               </div>
               <div className="hidden sm:flex bg-surface-container-lowest border border-surface-container-highest p-1 rounded-xl shadow-sm">
                 <button className="px-4 py-2 bg-primary text-white font-label-md text-label-md rounded-lg shadow-sm active:scale-95 transition-transform duration-200">All ({recentAnalyses.length})</button>
@@ -370,9 +372,9 @@ export const DashboardPage: React.FC = () => {
               <div className="w-12 h-12 bg-secondary rounded-xl flex items-center justify-center mb-6 shadow-md">
                 <Search className="w-6 h-6 text-white" />
               </div>
-              <h3 className="font-headline-lg text-headline-lg text-on-surface tracking-tight mb-4">Have a suspicious message?</h3>
+              <h3 className="font-headline-lg text-headline-lg text-on-surface tracking-tight mb-4">{t('dashboard.suspiciousTitle')}</h3>
               <p className="text-sm text-font-body-md text-body-md leading-relaxed mb-6">
-                Paste the message, forward an SMS, or drop a screenshot. InvestorShield deconstructs risk signals in seconds.
+                {t('dashboard.suspiciousDesc')}
               </p>
               <div className="bg-white p-4 rounded-2xl border border-surface-container-highest mb-6">
                 <div className="text-xs text-font-body-md text-body-md mb-8">Paste SMS, WhatsApp text, or regulatory claim here...</div>
@@ -382,7 +384,7 @@ export const DashboardPage: React.FC = () => {
                 </div>
               </div>
               <Link to="/analyze" className="w-full inline-flex justify-center items-center px-6 py-4 bg-secondary text-white font-label-lg text-label-lg rounded-xl hover:bg-secondary/90 hover:-translate-y-px active:scale-[0.98] transition-all duration-200 shadow-md">
-                Analyze Content Now <ArrowRight className="w-4 h-4 ml-2" />
+                {t('dashboard.btnAnalyze')} <ArrowRight className="w-4 h-4 ml-2" />
               </Link>
             </div>
           </div>
@@ -468,14 +470,14 @@ export const DashboardPage: React.FC = () => {
             <ShieldAlert className="w-8 h-8 text-secondary-light" />
           </div>
           <div>
-            <div className="font-label-sm text-label-sm font-bold text-white/60 uppercase tracking-widest mb-2">Golden Rule of Retail Financial Safety</div>
-            <h3 className="text-xl font-bold text-white leading-snug">No SEBI-registered broker or research analyst will ever ask you to transfer funds into a personal savings account or individual UPI handle.</h3>
+            <div className="font-label-sm text-label-sm font-bold text-white/60 uppercase tracking-widest mb-2">{t('dashboard.goldenRule')}</div>
+            <h3 className="text-xl font-bold text-white leading-snug">{t('dashboard.goldenRuleDesc')}</h3>
           </div>
         </div>
         <div className="relative z-10 shrink-0 w-full sm:w-auto">
           <a href="#" className="flex items-center justify-center sm:justify-start px-6 py-4 bg-white text-error font-extrabold rounded-xl hover:bg-surface-container transition-colors shadow-lg">
             <PhoneCall className="w-5 h-5 mr-3" />
-            National Cyber Crime: 1930
+            {t('dashboard.cyberCrime')}
           </a>
         </div>
       </div>

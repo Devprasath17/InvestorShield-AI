@@ -12,10 +12,12 @@ import {
   SafeActions,
   RiskSignalMap
 } from '../components/results';
+import { useLanguage } from '../i18n';
 
 const DEMO_TEXT = `SEBI approved investment opportunity!\n\nInvest ₹10,000 today and get ₹50,000 guaranteed in 15 days.\n\nLimited slots. Click now.\n\nhttps://bit.ly/invest-now`;
 
 export const AnalyzePage: React.FC = () => {
+  const { language, t } = useLanguage();
   const [activeTab, setActiveTab] = useState<'text' | 'image'>('text');
   const [text, setText] = useState('');
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -121,7 +123,7 @@ export const AnalyzePage: React.FC = () => {
           setLoadingStage('Preparing investor education...');
           setTimeout(() => setActiveStepIndex(4), 1000); // Educate
           
-          const eduResponse = await generateEducation(finalAnalysis.riskIndicators, 'en');
+          const eduResponse = await generateEducation(finalAnalysis.riskIndicators, language);
           if (eduResponse.success && eduResponse.education) {
              finalAnalysis = { ...finalAnalysis, education: eduResponse.education };
              setResult(finalAnalysis);
@@ -175,11 +177,11 @@ export const AnalyzePage: React.FC = () => {
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 gap-4">
         <div>
           <span className="font-label-sm text-label-sm font-bold uppercase tracking-wider text-secondary mb-1 flex items-center gap-1.5">
-            FINANCIAL CONTENT ANALYSIS <span className="text-outline-variant">•</span> Bilingual Verification Ready
+            {t('analyze.badge')} <span className="text-outline-variant">•</span> {t('analyze.badgeSub')}
           </span>
-          <h1 className="font-display-lg text-display-lg text-on-surface tracking-tight font-bold">Analyze Financial Content</h1>
+          <h1 className="font-display-lg text-display-lg text-on-surface tracking-tight font-bold">{t('analyze.title')}</h1>
           <p className="mt-2 font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
-            Paste a message or upload a screenshot to identify warning signals, verify claims against SEBI regulatory directories, and understand critical risks.
+            {t('analyze.desc')}
           </p>
         </div>
         <div className="flex items-center gap-2 px-4 py-2 bg-surface-container-low rounded-full border border-surface-container-highest shadow-sm shrink-0">
@@ -200,8 +202,8 @@ export const AnalyzePage: React.FC = () => {
           <div className="lg:col-span-7 bg-surface-container-lowest rounded-3xl shadow-sm border border-surface-container-highest overflow-hidden">
             <div className="p-6 border-b border-surface-container-highest">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="font-headline-sm text-headline-sm font-bold text-on-surface">What would you like to analyze?</h2>
-                <span className="font-label-sm text-label-sm text-on-surface-variant bg-surface-container-low px-2.5 py-1 rounded-md">Encrypted Sandbox</span>
+                <h2 className="font-headline-sm text-headline-sm font-bold text-on-surface">{t('analyze.whatToAnalyze')}</h2>
+                <span className="font-label-sm text-label-sm text-on-surface-variant bg-surface-container-low px-2.5 py-1 rounded-md">{t('analyze.sandbox')}</span>
               </div>
               
               <div className="flex bg-surface-container p-1 rounded-xl">
@@ -209,13 +211,13 @@ export const AnalyzePage: React.FC = () => {
                   onClick={() => setActiveTab('text')}
                   className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg font-label-md text-label-md active:scale-95 transition-all duration-200 ${activeTab === 'text' ? 'bg-secondary text-on-secondary shadow-sm' : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest/50'}`}
                 >
-                  <FileText className="w-4 h-4" /> Paste Text
+                  <FileText className="w-4 h-4" /> {t('analyze.pasteText')}
                 </button>
                 <button 
                   onClick={() => setActiveTab('image')}
                   className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg font-label-md text-label-md active:scale-95 transition-all duration-200 ${activeTab === 'image' ? 'bg-secondary text-on-secondary shadow-sm' : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest/50'}`}
                 >
-                  <ImageIcon className="w-4 h-4" /> Upload Screenshot
+                  <ImageIcon className="w-4 h-4" /> {t('analyze.uploadScreenshot')}
                 </button>
               </div>
             </div>
@@ -226,7 +228,7 @@ export const AnalyzePage: React.FC = () => {
                   <textarea
                     value={text}
                     onChange={(e) => { setText(e.target.value); clearImage(); }}
-                    placeholder="Paste the investment message, social media post, email, or financial claim here..."
+                    placeholder={t('analyze.textPlaceholder')}
                     className="w-full min-h-[220px] p-5 bg-surface-container-low border border-surface-container-highest rounded-2xl focus:ring-2 focus:ring-secondary/40 focus:border-secondary resize-none text-on-surface font-body-md leading-relaxed placeholder:text-on-surface-variant/60 transition-all shadow-inner"
                   />
                   <div className="flex items-center justify-between mt-3">
@@ -236,7 +238,7 @@ export const AnalyzePage: React.FC = () => {
                         onClick={() => setText(DEMO_TEXT)}
                         className="flex items-center gap-1.5 font-label-sm text-label-sm text-secondary hover:text-primary active:scale-95 transition-all duration-200 bg-secondary-fixed px-3 py-1.5 rounded-lg"
                       >
-                        Load Demo High-Risk Sample
+                        {t('analyze.loadDemo')}
                       </button>
                     )}
                   </div>
@@ -276,10 +278,10 @@ export const AnalyzePage: React.FC = () => {
                         <div className="w-14 h-14 bg-surface-container-lowest rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm border border-surface-container-highest">
                           <Upload className="w-6 h-6 text-secondary" />
                         </div>
-                        <h3 className="font-headline-sm text-headline-sm font-bold text-on-surface mb-1">Upload a Screenshot</h3>
-                        <p className="font-body-sm text-body-sm text-on-surface-variant mb-4 max-w-xs mx-auto">Upload a screenshot of the financial message or content you want to understand.</p>
+                        <h3 className="font-headline-sm text-headline-sm font-bold text-on-surface mb-1">{t('analyze.uploadScreenshot')}</h3>
+                        <p className="font-body-sm text-body-sm text-on-surface-variant mb-4 max-w-xs mx-auto"></p>
                         <div className="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-surface-container-lowest border border-surface-container-highest font-label-sm text-label-sm text-secondary font-semibold shadow-sm">
-                          Drop image or click to browse
+                          {t('analyze.dropImage')}
                         </div>
                         <p className="font-label-sm text-label-sm text-outline-variant mt-4">PNG · JPG · WebP · Max 5 MB</p>
                       </div>
@@ -297,14 +299,14 @@ export const AnalyzePage: React.FC = () => {
 
               <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <p className="font-label-sm text-label-sm text-on-surface-variant opacity-70">
-                  InvestorShield AI provides educational and safety guidance, not investment advice.
+                  {t('analyze.disclaimer')}
                 </p>
                 <button
                   onClick={handleAnalyze}
                   disabled={loading || (activeTab === 'text' ? !text.trim() : !imageFile)}
                   className="w-full sm:w-auto px-8 py-3 bg-primary text-on-primary font-label-lg text-label-lg rounded-xl hover:bg-primary-container hover:-translate-y-[1px] hover:shadow-lg active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 transition-all duration-200 ease-out flex justify-center items-center group shadow-md shrink-0"
                 >
-                  Analyze Content <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
+                  {t('analyze.btnAnalyze')} <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
                 </button>
               </div>
             </div>
@@ -314,11 +316,11 @@ export const AnalyzePage: React.FC = () => {
           <div className="lg:col-span-5 bg-surface-container-low rounded-3xl border border-surface-container-highest p-6 shadow-inner hidden md:block">
             <div className="flex items-center gap-2 mb-6">
               <ShieldCheck className="w-6 h-6 text-secondary" />
-              <h2 className="font-headline-sm text-headline-sm font-bold text-on-surface">What InvestorShield Checks</h2>
+              <h2 className="font-headline-sm text-headline-sm font-bold text-on-surface">{t('analyze.checks.title')}</h2>
             </div>
             
             <p className="font-body-sm text-body-sm text-on-surface-variant mb-6">
-              Every submission undergoes our rigorous five-stage regulatory verification protocol:
+              {t('analyze.checks.sub')}
             </p>
 
             <div className="space-y-6 relative before:absolute before:inset-0 before:ml-[1.1rem] before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-surface-container-highest before:to-transparent">

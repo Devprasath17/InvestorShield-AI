@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../i18n';
 
 export const AboutPage: React.FC = () => {
+  const { t } = useLanguage();
   return (
     <div className="flex flex-col w-full animate-in fade-in slide-in-from-bottom-2 duration-300 ease-out motion-reduce:animate-none">
       {/* SECTION 1: HERO */}
@@ -12,22 +14,22 @@ export const AboutPage: React.FC = () => {
           <div className="lg:col-span-7 flex flex-col items-start">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm tracking-wide uppercase mb-space-md shadow-sm">
               <span className="w-2 h-2 rounded-full bg-secondary-container animate-pulse"></span>
-              <span>About InvestorShield AI • Public Digital Safety Utility</span>
+              <span>{t('about.badge')}</span>
             </div>
             <h1 className="font-display-lg text-display-lg text-primary tracking-tight mb-space-md">
-              Helping Investors <span className="text-secondary">Understand</span> Before They Act.
+              {t('about.title1')} <span className="text-secondary">{t('about.title2')}</span> {t('about.title3')}
             </h1>
             <p className="font-body-lg text-body-lg text-on-surface-variant max-w-2xl leading-relaxed mb-space-lg">
-              InvestorShield AI is designed to help people make sense of suspicious financial content through detection, verification, explanation, and practical safety education.
+              {t('about.desc')}
             </p>
             <div className="flex flex-wrap items-center gap-space-sm">
               <Link to="/analyze" className="inline-flex items-center justify-center gap-2 px-6 h-12 rounded-lg bg-primary-container text-on-primary font-label-lg text-label-lg shadow-md hover:bg-primary hover:-translate-y-[1px] active:scale-[0.98] transition-all duration-200">
                 <span className="material-symbols-outlined text-[20px]">security_update_warning</span>
-                <span>Analyze Suspicious Claim</span>
+                <span>{t('about.btnAnalyze')}</span>
               </Link>
               <a href="#pipeline" className="inline-flex items-center justify-center gap-2 px-6 h-12 rounded-lg bg-surface-container-lowest text-primary font-label-lg text-label-lg shadow-sm hover:bg-surface-container hover:-translate-y-[1px] active:scale-[0.98] transition-all duration-200">
                 <span className="material-symbols-outlined text-[20px]">account_tree</span>
-                <span>View Safety Architecture</span>
+                <span>{t('about.btnArchitecture')}</span>
               </a>
             </div>
             <div className="mt-space-lg flex items-center gap-space-md pt-space-md">
@@ -36,7 +38,7 @@ export const AboutPage: React.FC = () => {
                 <div className="w-8 h-8 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm flex items-center justify-center font-bold ring-2 ring-surface-container-lowest">RBI</div>
                 <div className="w-8 h-8 rounded-full bg-primary-container text-on-primary font-label-sm text-label-sm flex items-center justify-center font-bold ring-2 ring-surface-container-lowest">MCA</div>
               </div>
-              <span className="font-body-sm text-body-sm text-on-surface-variant">Ground truth synced against statutory consumer protection portals</span>
+              <span className="font-body-sm text-body-sm text-on-surface-variant">{t('about.statutoryDesc')}</span>
             </div>
           </div>
           {/* Hero Visual Shield Composition */}

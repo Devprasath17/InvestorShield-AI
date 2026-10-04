@@ -8,9 +8,11 @@ import {
   HelpCircle, BadgeCheck, FileCheck, ArrowUpRight
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useLanguage } from '../i18n';
 
 export const LearnPage: React.FC = () => {
   const navigate = useNavigate();
+  const { language, t } = useLanguage();
   const [topics, setTopics] = useState<EducationItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -19,8 +21,9 @@ export const LearnPage: React.FC = () => {
 
   useEffect(() => {
     const fetchTopics = async () => {
+      setLoading(true);
       try {
-        const response = await getEducationTopics();
+        const response = await getEducationTopics(language);
         if (response.success && response.topics) {
           setTopics(response.topics);
         } else {
@@ -33,7 +36,7 @@ export const LearnPage: React.FC = () => {
       }
     };
     fetchTopics();
-  }, []);
+  }, [language]);
 
   // Helper to assign visual properties based on index to API topics
   const getTopicVisuals = (index: number) => {
@@ -109,10 +112,10 @@ export const LearnPage: React.FC = () => {
             INVESTOR SAFETY EDUCATION - VERNACULAR & PLAIN LANGUAGE
           </span>
           <h1 className="text-4xl md:text-5xl font-extrabold text-[#0F2D6B] tracking-tight leading-tight mb-4">
-            Learn to Spot the Signals.<br/>Protect Your Decisions.
+            {t('learn.title')}
           </h1>
           <p className="text-lg text-slate-600 leading-relaxed mb-6">
-            Understand common financial scam indicators, learn how to verify claims independently, and build safer financial habits before acting on investment messages.
+            {t('learn.subtitle')}
           </p>
           <div className="flex items-center gap-6 text-sm font-semibold text-[#0F2D6B]">
             <span className="flex items-center gap-1.5"><ShieldCheck className="w-4 h-4 text-blue-600"/> SEBI / RBI Due Diligence</span>
@@ -202,8 +205,9 @@ export const LearnPage: React.FC = () => {
                 : "font-medium bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 active:scale-95"
             }`}
           >
-            All Topics
+            {t('learn.filters.all')}
           </button>
+
           
           {categories.map((category) => (
             <button 
@@ -435,7 +439,7 @@ export const LearnPage: React.FC = () => {
                     <div className="flex items-center justify-between pt-4 border-t border-slate-100 mt-auto">
                       <span className="text-[10px] font-semibold text-slate-400">{visual.type}</span>
                       <span className="text-sm font-bold text-blue-600 group-hover:text-[#0F2D6B] transition-colors flex items-center">
-                        Learn More <ArrowRight className="w-3.5 h-3.5 ml-1 group-hover:translate-x-1 transition-transform" />
+                        {t('learn.btn.learnMore')} <ArrowRight className="w-3.5 h-3.5 ml-1 group-hover:translate-x-1 transition-transform" />
                       </span>
                     </div>
                   </div>

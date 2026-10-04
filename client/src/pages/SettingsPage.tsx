@@ -4,6 +4,7 @@ import {
   LockKeyhole, Shield, Download, Trash2, LogOut, Check, 
   AlertTriangle, Info, MonitorSmartphone, Loader2
 } from 'lucide-react';
+import { useLanguage } from '../i18n';
 
 const ToggleSwitch = ({ defaultChecked, onChange }: { defaultChecked?: boolean; onChange?: () => void }) => {
   const [checked, setChecked] = useState(defaultChecked || false);
@@ -31,6 +32,7 @@ const ToggleSwitch = ({ defaultChecked, onChange }: { defaultChecked?: boolean; 
 };
 
 export const SettingsPage: React.FC = () => {
+  const { t, language, setLanguage } = useLanguage();
   const [activeSection, setActiveSection] = useState('profile');
   const [isSaving, setIsSaving] = useState(false);
   const [showToast, setShowToast] = useState(false);
@@ -71,13 +73,13 @@ export const SettingsPage: React.FC = () => {
   };
 
   const navItems = [
-    { id: 'profile', label: 'Profile', icon: User },
-    { id: 'preferences', label: 'Preferences', icon: SlidersHorizontal },
-    { id: 'analysis', label: 'Analysis', icon: ScanSearch },
-    { id: 'notifications', label: 'Notifications', icon: Bell },
-    { id: 'privacy', label: 'Privacy & Data', icon: ShieldCheck },
-    { id: 'security', label: 'Security', icon: LockKeyhole },
-    { id: 'danger', label: 'Danger Zone', icon: AlertTriangle, danger: true },
+    { id: 'profile', label: t('settings.profile'), icon: User },
+    { id: 'preferences', label: t('settings.preferences'), icon: SlidersHorizontal },
+    { id: 'analysis', label: t('settings.analysis'), icon: ScanSearch },
+    { id: 'notifications', label: t('settings.notifications'), icon: Bell },
+    { id: 'privacy', label: t('settings.privacy'), icon: ShieldCheck },
+    { id: 'security', label: t('settings.security'), icon: LockKeyhole },
+    { id: 'danger', label: t('settings.danger'), icon: AlertTriangle, danger: true },
   ];
 
   const activeIndex = navItems.findIndex(i => i.id === activeSection);
@@ -90,9 +92,9 @@ export const SettingsPage: React.FC = () => {
         <div className="inline-flex items-center px-3 py-1.5 rounded-full bg-blue-50 text-blue-600 font-bold text-[10px] tracking-widest uppercase mb-4 border border-blue-100">
           <User className="w-3.5 h-3.5 mr-2" /> ACCOUNT SETTINGS
         </div>
-        <h1 className="text-3xl md:text-4xl font-extrabold text-[#0F2D6B] mb-3">Settings</h1>
+        <h1 className="text-3xl md:text-4xl font-extrabold text-[#0F2D6B] mb-3">{t('settings.title')}</h1>
         <p className="text-slate-600 text-lg max-w-2xl">
-          Manage your account, preferences, privacy, and InvestorShield AI experience.
+          {t('settings.desc')}
         </p>
       </div>
 
@@ -172,9 +174,13 @@ export const SettingsPage: React.FC = () => {
                 </div>
                 <div className="space-y-2 group">
                   <label className="text-sm font-bold text-slate-700 group-focus-within:text-blue-600 transition-colors duration-200">Preferred Language</label>
-                  <select className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-slate-900 focus:outline-none focus:border-blue-500 focus:ring-[3px] focus:ring-blue-500/20 transition-all duration-200 ease-out shadow-sm appearance-none cursor-pointer">
-                    <option>English</option>
-                    <option>தமிழ்</option>
+                  <select 
+                    value={language}
+                    onChange={(e) => setLanguage(e.target.value as 'en' | 'ta')}
+                    className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-slate-900 focus:outline-none focus:border-blue-500 focus:ring-[3px] focus:ring-blue-500/20 transition-all duration-200 ease-out shadow-sm appearance-none cursor-pointer"
+                  >
+                    <option value="en">English</option>
+                    <option value="ta">தமிழ்</option>
                   </select>
                   <p className="text-xs text-slate-500 mt-1">Used for explanations and investor education content.</p>
                 </div>

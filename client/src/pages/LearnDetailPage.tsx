@@ -6,10 +6,12 @@ import {
   ArrowLeft, AlertTriangle, ShieldCheck, Search, 
   ClipboardCheck, ArrowRight, Shield, CheckCircle
 } from 'lucide-react';
+import { useLanguage } from '../i18n';
 
 export const LearnDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { language, t } = useLanguage();
   const [topic, setTopic] = useState<EducationItem | null>(null);
   const [relatedTopics, setRelatedTopics] = useState<EducationItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -19,7 +21,7 @@ export const LearnDetailPage: React.FC = () => {
     const fetchTopic = async () => {
       try {
         setLoading(true);
-        const response = await getEducationTopics();
+        const response = await getEducationTopics(language);
         if (response.success && response.topics) {
           const foundTopic = response.topics.find(t => t.id === id);
           if (foundTopic) {
@@ -42,7 +44,7 @@ export const LearnDetailPage: React.FC = () => {
       }
     };
     fetchTopic();
-  }, [id]);
+  }, [id, language]);
 
   if (loading) {
     return (
@@ -78,7 +80,7 @@ export const LearnDetailPage: React.FC = () => {
         onClick={() => navigate('/learn')}
         className="flex items-center text-sm font-semibold text-slate-500 hover:text-blue-600 mb-8 transition-colors group"
       >
-        <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" /> Back to Learn
+        <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" /> {t('learn.detail.back')}
       </button>
 
       {/* Main Content */}
@@ -102,7 +104,7 @@ export const LearnDetailPage: React.FC = () => {
               <ClipboardCheck className="w-5 h-5 text-blue-600" />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-slate-800 mb-2">Why This Matters</h3>
+              <h3 className="text-lg font-bold text-slate-800 mb-2">{t('learn.detail.whyMatters')}</h3>
               <p className="text-slate-600 leading-relaxed">{topic.whyItMatters}</p>
             </div>
           </div>
@@ -112,7 +114,7 @@ export const LearnDetailPage: React.FC = () => {
               <AlertTriangle className="w-5 h-5 text-red-600" />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-slate-800 mb-2">What to Look For</h3>
+              <h3 className="text-lg font-bold text-slate-800 mb-2">{t('learn.detail.whatToLookFor')}</h3>
               <p className="text-slate-600 leading-relaxed">{topic.whatToLookFor}</p>
             </div>
           </div>
@@ -122,7 +124,7 @@ export const LearnDetailPage: React.FC = () => {
               <Search className="w-5 h-5 text-slate-600" />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-slate-800 mb-2">What to Check</h3>
+              <h3 className="text-lg font-bold text-slate-800 mb-2">{t('learn.detail.whatToCheck')}</h3>
               <p className="text-slate-600 leading-relaxed">{topic.whatToCheck}</p>
             </div>
           </div>
@@ -132,7 +134,7 @@ export const LearnDetailPage: React.FC = () => {
               <ShieldCheck className="w-5 h-5 text-blue-600" />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-[#0F2D6B] mb-2">Safe Habit</h3>
+              <h3 className="text-lg font-bold text-[#0F2D6B] mb-2">{t('learn.detail.safeHabit')}</h3>
               <p className="text-slate-700 leading-relaxed">{topic.safeHabit}</p>
             </div>
           </div>
@@ -148,7 +150,7 @@ export const LearnDetailPage: React.FC = () => {
         <div className="relative z-10 max-w-4xl">
           <h3 className="text-2xl font-bold mb-6 flex items-center">
             <CheckCircle className="w-6 h-6 mr-3 text-blue-300" />
-            Before You Invest: Quick Verification
+            {t('learn.detail.quickChecklist')}
           </h3>
           <ul className="space-y-4">
             <li className="flex items-start">
@@ -188,7 +190,7 @@ export const LearnDetailPage: React.FC = () => {
       {/* Related Topics */}
       {relatedTopics.length > 0 && (
         <div>
-          <h3 className="text-2xl font-extrabold text-[#0F2D6B] mb-6">Related Topics</h3>
+          <h3 className="text-2xl font-extrabold text-[#0F2D6B] mb-6">{t('learn.detail.relatedTopics')}</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {relatedTopics.map((relTopic, index) => (
               <div 

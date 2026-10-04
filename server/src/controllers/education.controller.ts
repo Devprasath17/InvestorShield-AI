@@ -29,7 +29,8 @@ export const generateEducation = async (req: Request, res: Response) => {
 
 export const getAllEducationTopics = async (req: Request, res: Response) => {
   try {
-    const topics = educationService.getAllTopics();
+    const language = (req.query.language as string) || 'en';
+    const topics = educationService.getAllTopics(language);
     return res.status(200).json({
       success: true,
       topics,

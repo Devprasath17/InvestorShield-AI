@@ -1,7 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../i18n';
 
 export const HomePage: React.FC = () => {
+  const { language, setLanguage, t } = useLanguage();
+
   return (
     <div className="bg-transparent font-body-md text-on-surface antialiased min-h-screen flex flex-col animate-in fade-in slide-in-from-bottom-2 duration-300 ease-out motion-reduce:animate-none">
       <header className="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
@@ -13,18 +16,18 @@ export const HomePage: React.FC = () => {
             </div>
           </div>
           <nav className="hidden lg:flex items-center gap-space-lg h-full">
-            <Link to="/" aria-current="page" className="h-full flex items-center transition-colors text-secondary border-b-2 border-secondary font-label-lg active:scale-95">Home</Link>
-            <Link to="/analyze" className="h-full flex items-center font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors active:scale-95">Analyze</Link>
-            <Link to="/dashboard" className="h-full flex items-center font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors active:scale-95">Dashboard</Link>
-            <Link to="/learn" className="h-full flex items-center font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors active:scale-95">Learn</Link>
-            <Link to="/about" className="h-full flex items-center font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors active:scale-95">About</Link>
+            <Link to="/" aria-current="page" className="h-full flex items-center transition-colors text-secondary border-b-2 border-secondary font-label-lg active:scale-95">{t('nav.home')}</Link>
+            <Link to="/analyze" className="h-full flex items-center font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors active:scale-95">{t('nav.analyze')}</Link>
+            <Link to="/dashboard" className="h-full flex items-center font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors active:scale-95">{t('nav.dashboard')}</Link>
+            <Link to="/learn" className="h-full flex items-center font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors active:scale-95">{t('nav.learn')}</Link>
+            <Link to="/about" className="h-full flex items-center font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors active:scale-95">{t('nav.about')}</Link>
           </nav>
           <div className="flex items-center gap-space-md">
             <div className="flex items-center p-space-xs bg-surface-container-high rounded-full">
-              <button className="px-space-sm py-1 rounded-full bg-primary font-label-sm text-label-sm text-on-primary transition-all active:scale-95" type="button">EN</button>
-              <button className="px-space-sm py-1 rounded-full font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-all active:scale-95" type="button">தமிழ்</button>
+              <button onClick={() => setLanguage('en')} aria-pressed={language === 'en'} className={`px-space-sm py-1 rounded-full font-label-sm text-label-sm transition-all active:scale-95 ${language === 'en' ? 'bg-primary text-on-primary' : 'text-on-surface-variant hover:text-on-surface'}`} type="button">EN</button>
+              <button onClick={() => setLanguage('ta')} aria-pressed={language === 'ta'} className={`px-space-sm py-1 rounded-full font-label-sm text-label-sm transition-all active:scale-95 ${language === 'ta' ? 'bg-primary text-on-primary' : 'text-on-surface-variant hover:text-on-surface'}`} type="button">தமிழ்</button>
             </div>
-            <Link to="/analyze" className="hidden sm:inline-flex items-center justify-center px-space-lg py-space-sm rounded-lg bg-secondary font-label-lg text-label-lg text-on-secondary hover:bg-secondary-container hover:-translate-y-px active:scale-95 transition-all duration-200 shadow-sm hover:shadow-md">Get Started</Link>
+            <Link to="/analyze" className="hidden sm:inline-flex items-center justify-center px-space-lg py-space-sm rounded-lg bg-secondary font-label-lg text-label-lg text-on-secondary hover:bg-secondary-container hover:-translate-y-px active:scale-95 transition-all duration-200 shadow-sm hover:shadow-md">{t('nav.getStarted')}</Link>
             <Link to="/dashboard" className="w-8 h-8 rounded-full bg-primary flex items-center justify-center hover:scale-105 active:scale-95 transition-transform duration-200">
               <span className="material-symbols-outlined text-on-primary text-[18px]">person</span>
             </Link>
@@ -42,22 +45,22 @@ export const HomePage: React.FC = () => {
               <div className="flex flex-col items-start gap-space-md lg:col-span-6 lg:pr-space-md">
                 <div className="inline-flex items-center gap-space-xs rounded-full bg-surface-container-high px-3.5 py-1.5 shadow-sm">
                   <span className="material-symbols-outlined text-secondary text-[18px]">auto_awesome</span>
-                  <span className="font-label-md text-label-md text-secondary">AI-Powered Financial Safety Assistant</span>
+                  <span className="font-label-md text-label-md text-secondary">{t('home.hero.badge')}</span>
                 </div>
                 
                 <h1 className="font-display-lg text-display-lg text-primary tracking-tight">
-                  Know what's behind <br className="hidden sm:inline"/>
-                  <span className="text-secondary">the message.</span>
+                  {t('home.hero.title1')} <br className="hidden sm:inline"/>
+                  <span className="text-secondary">{t('home.hero.title2')}</span>
                 </h1>
                 
                 <p className="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
-                  Analyze suspicious investment messages, verify financial claims against official regulatory registers, and master safer investing habits across Bharat.
+                  {t('home.hero.description')}
                 </p>
                 
                 <div className="mt-space-sm flex flex-wrap items-center gap-space-md">
                   <Link to="/analyze" className="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-secondary px-6 font-label-lg text-label-lg text-on-secondary shadow-md hover:bg-secondary-container hover:-translate-y-px hover:shadow-lg active:scale-95 transition-all duration-200">
                     <span className="material-symbols-outlined text-[20px]">search_check</span>
-                    <span>Analyze Content</span>
+                    <span>{t('home.hero.btnAnalyze')}</span>
                     <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
                   </Link>
                   <button 
@@ -65,39 +68,41 @@ export const HomePage: React.FC = () => {
                     className="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-surface-container-lowest px-5 font-label-lg text-label-lg text-primary shadow-sm hover:bg-surface-container hover:-translate-y-px active:scale-95 transition-all duration-200"
                   >
                     <span className="material-symbols-outlined text-secondary text-[20px]">play_circle</span>
-                    <span>Learn How It Works</span>
+                    <span>{t('home.hero.btnLearn')}</span>
                   </button>
+
                 </div>
                 
                 <div className="mt-space-lg grid w-full grid-cols-2 gap-space-md sm:grid-cols-4">
                   <div className="flex flex-col gap-1 rounded-xl bg-surface-container-low p-space-sm">
                     <div className="flex items-center gap-1.5 text-secondary">
                       <span className="material-symbols-outlined text-[20px]">verified_user</span>
-                      <span className="font-label-md text-label-md font-bold text-on-surface">Detect</span>
+                      <span className="font-label-md text-label-md font-bold text-on-surface">{t('home.feat.detect')}</span>
                     </div>
-                    <span className="font-body-sm text-body-sm text-on-surface-variant">Warning Signals</span>
+                    <span className="font-body-sm text-body-sm text-on-surface-variant">{t('home.feat.detectSub')}</span>
                   </div>
                   <div className="flex flex-col gap-1 rounded-xl bg-surface-container-low p-space-sm">
                     <div className="flex items-center gap-1.5 text-secondary">
                       <span className="material-symbols-outlined text-[20px]">find_in_page</span>
-                      <span className="font-label-md text-label-md font-bold text-on-surface">Verify</span>
+                      <span className="font-label-md text-label-md font-bold text-on-surface">{t('home.feat.verify')}</span>
                     </div>
-                    <span className="font-body-sm text-body-sm text-on-surface-variant">Claims with Evidence</span>
+                    <span className="font-body-sm text-body-sm text-on-surface-variant">{t('home.feat.verifySub')}</span>
                   </div>
                   <div className="flex flex-col gap-1 rounded-xl bg-surface-container-low p-space-sm">
                     <div className="flex items-center gap-1.5 text-secondary">
                       <span className="material-symbols-outlined text-[20px]">menu_book</span>
-                      <span className="font-label-md text-label-md font-bold text-on-surface">Understand</span>
+                      <span className="font-label-md text-label-md font-bold text-on-surface">{t('home.feat.understand')}</span>
                     </div>
-                    <span className="font-body-sm text-body-sm text-on-surface-variant">Why It Matters</span>
+                    <span className="font-body-sm text-body-sm text-on-surface-variant">{t('home.feat.understandSub')}</span>
                   </div>
                   <div className="flex flex-col gap-1 rounded-xl bg-surface-container-low p-space-sm">
                     <div className="flex items-center gap-1.5 text-secondary">
                       <span className="material-symbols-outlined text-[20px]">trending_up</span>
-                      <span className="font-label-md text-label-md font-bold text-on-surface">Invest Safer</span>
+                      <span className="font-label-md text-label-md font-bold text-on-surface">{t('home.feat.invest')}</span>
                     </div>
-                    <span className="font-body-sm text-body-sm text-on-surface-variant">With Knowledge</span>
+                    <span className="font-body-sm text-body-sm text-on-surface-variant">{t('home.feat.investSub')}</span>
                   </div>
+
                 </div>
               </div>
 
@@ -126,50 +131,53 @@ export const HomePage: React.FC = () => {
                       </div>
                       <div className="flex items-center gap-2 rounded-lg px-2 py-1.5 font-label-sm text-label-sm text-on-surface-variant hover:bg-surface-container">
                         <span className="material-symbols-outlined text-[16px]">grid_view</span>
-                        <span>Dashboard</span>
+                        <span>{t('nav.dashboard')}</span>
                       </div>
                       <div className="flex items-center gap-2 rounded-lg bg-surface-container-high px-2 py-1.5 font-label-sm text-label-sm font-bold text-secondary">
                         <span className="material-symbols-outlined text-[16px]">travel_explore</span>
-                        <span>Analyze</span>
+                        <span>{t('nav.analyze')}</span>
                       </div>
                       <div className="flex items-center gap-2 rounded-lg px-2 py-1.5 font-label-sm text-label-sm text-on-surface-variant hover:bg-surface-container">
                         <span className="material-symbols-outlined text-[16px]">history</span>
-                        <span>History</span>
+                        <span>{t('nav.history')}</span>
                       </div>
                       <div className="flex items-center gap-2 rounded-lg px-2 py-1.5 font-label-sm text-label-sm text-on-surface-variant hover:bg-surface-container">
                         <span className="material-symbols-outlined text-[16px]">school</span>
-                        <span>Learn</span>
+                        <span>{t('nav.learn')}</span>
                       </div>
                       <div className="flex items-center gap-2 rounded-lg px-2 py-1.5 font-label-sm text-label-sm text-on-surface-variant hover:bg-surface-container">
                         <span className="material-symbols-outlined text-[16px]">info</span>
-                        <span>About</span>
+                        <span>{t('nav.about')}</span>
                       </div>
+
                     </div>
 
                     <div className="col-span-12 sm:col-span-9 flex flex-col gap-3">
                       <div className="rounded-2xl bg-surface-container-lowest p-3.5 shadow-md">
                         <div className="flex items-center justify-between">
                           <div>
-                            <h2 className="font-headline-sm text-headline-sm text-primary">Analyze Financial Content</h2>
-                            <p className="font-body-sm text-body-sm text-on-surface-variant">Paste a message or URL. We'll decompose the intent.</p>
+                            <h2 className="font-headline-sm text-headline-sm text-primary">{t('home.widget.analyze')}</h2>
+                            <p className="font-body-sm text-body-sm text-on-surface-variant">{t('home.widget.analyzeSub')}</p>
                           </div>
                         </div>
                         <div className="mt-2.5 flex gap-1.5 rounded-lg bg-surface-container p-1">
-                          <button className="flex-1 rounded-md bg-surface-container-lowest py-1 font-label-sm text-label-sm font-semibold text-secondary shadow-sm" type="button">Paste Text</button>
-                          <button className="flex-1 rounded-md py-1 font-label-sm text-label-sm text-on-surface-variant" type="button">Upload Screenshot</button>
+                          <button className="flex-1 rounded-md bg-surface-container-lowest py-1 font-label-sm text-label-sm font-semibold text-secondary shadow-sm" type="button">{t('home.widget.btnPaste')}</button>
+                          <button className="flex-1 rounded-md py-1 font-label-sm text-label-sm text-on-surface-variant" type="button">{t('home.widget.btnUpload')}</button>
                         </div>
+
                         <div className="mt-2.5 rounded-xl bg-surface-container-low p-2.5 font-body-sm text-body-sm text-on-surface">
                           <p className="text-error font-semibold">🚨 SEBI approved opportunity! 🚨</p>
                           <p className="text-on-surface-variant">Invest <span className="font-semibold text-on-surface">₹10,000</span> today and get <span className="font-semibold text-on-surface">₹50,000 guaranteed</span> in 15 days. Limited slots remaining! Click https://t.me/sebi_guaranteed_wealth</p>
                         </div>
                         <div className="mt-2.5 flex items-center justify-between">
                           <span className="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
-                            <span className="material-symbols-outlined text-[14px] text-secondary">lock</span> Encrypted Sandbox
+                            <span className="material-symbols-outlined text-[14px] text-secondary">lock</span> {t('home.widget.encrypted')}
                           </span>
                           <button className="inline-flex items-center gap-1 rounded-lg bg-secondary px-4 py-1.5 font-label-sm text-label-sm font-semibold text-on-secondary shadow-sm" type="button">
                             <span className="material-symbols-outlined text-[16px]">neurology</span>
-                            <span>Analyze Signals</span>
+                            <span>{t('home.widget.btnAnalyzeSignals')}</span>
                           </button>
+
                         </div>
                       </div>
 
@@ -177,18 +185,19 @@ export const HomePage: React.FC = () => {
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-1.5">
                             <span className="material-symbols-outlined text-error text-[18px]">report_problem</span>
-                            <span className="font-label-sm text-label-sm font-bold uppercase tracking-wider text-on-surface">Analysis Result</span>
+                            <span className="font-label-sm text-label-sm font-bold uppercase tracking-wider text-on-surface">{t('home.widget.resultTitle')}</span>
                           </div>
-                          <span className="font-label-sm text-label-sm text-on-surface-variant">Just now</span>
+                          <span className="font-label-sm text-label-sm text-on-surface-variant">{t('home.widget.resultJustNow')}</span>
                         </div>
                         <div className="mt-2 flex items-center gap-3 rounded-xl bg-error-container/60 p-2.5">
                           <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-error text-on-error shadow-sm">
                             <span className="material-symbols-outlined text-[22px]">warning</span>
                           </div>
                           <div className="flex flex-col">
-                            <span className="font-label-lg text-label-lg font-bold text-on-error-container">POTENTIALLY RISKY</span>
-                            <span className="font-body-sm text-body-sm text-on-surface-variant">Multiple deceptive markers match known unregulated Ponzi syndicates.</span>
+                            <span className="font-label-lg text-label-lg font-bold text-on-error-container">{t('home.widget.resultRisky')}</span>
+                            <span className="font-body-sm text-body-sm text-on-surface-variant">{t('home.widget.resultRiskySub')}</span>
                           </div>
+
                         </div>
                         <div className="relative mt-3 flex items-center justify-center rounded-xl bg-surface-container-low p-2">
                           <svg className="w-full h-auto max-h-[170px]" fill="none" viewBox="0 0 420 180" xmlns="http://www.w3.org/2000/svg">
@@ -256,9 +265,10 @@ export const HomePage: React.FC = () => {
           <div className="mx-auto max-w-[1280px] px-margin md:px-margin-tablet lg:px-margin-desktop">
             <div className="flex flex-col items-center justify-between gap-space-lg lg:flex-row">
               <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
-                <span className="font-label-lg text-label-lg font-bold text-primary">Trusted Sources for Verification</span>
-                <span className="font-body-sm text-body-sm text-on-surface-variant">Verified live across Indian statutory databases and registries</span>
+                <span className="font-label-lg text-label-lg font-bold text-primary">{t('home.trusted.title')}</span>
+                <span className="font-body-sm text-body-sm text-on-surface-variant">{t('home.trusted.sub')}</span>
               </div>
+
               <div className="flex flex-wrap items-center justify-center gap-space-md sm:gap-space-lg">
                 <div className="flex items-center gap-2 rounded-xl bg-surface-container-lowest px-3 py-2 shadow-sm">
                   <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-surface-container font-headline-sm text-headline-sm font-black text-primary">
@@ -313,10 +323,10 @@ export const HomePage: React.FC = () => {
         <section className="w-full bg-surface py-space-xl" id="how-it-works">
           <div className="mx-auto max-w-[1280px] px-margin md:px-margin-tablet lg:px-margin-desktop">
             <div className="mx-auto flex max-w-2xl flex-col items-center text-center">
-              <span className="font-label-sm text-label-sm font-bold uppercase tracking-wider text-secondary">HOW IT WORKS</span>
-              <h2 className="mt-1 font-display-lg text-display-lg text-primary tracking-tight">From Message to Clarity</h2>
+              <span className="font-label-sm text-label-sm font-bold uppercase tracking-wider text-secondary">{t('home.how.badge')}</span>
+              <h2 className="mt-1 font-display-lg text-display-lg text-primary tracking-tight">{t('home.how.title')}</h2>
               <p className="mt-2 font-body-lg text-body-lg text-on-surface-variant">
-                A transparent, evidence-backed 5-step process protecting every tier of Indian retail investors.
+                {t('home.how.sub')}
               </p>
             </div>
             <div className="mt-space-xl grid grid-cols-1 items-start gap-space-md sm:grid-cols-2 lg:grid-cols-5">
@@ -325,41 +335,42 @@ export const HomePage: React.FC = () => {
                   <span className="material-symbols-outlined text-[28px]">search_insights</span>
                   <span className="absolute -top-1.5 -right-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-secondary font-label-sm text-label-sm font-bold text-on-secondary">01</span>
                 </div>
-                <h3 className="mt-space-md font-headline-sm text-headline-sm text-primary">Detect</h3>
-                <p className="mt-1 font-body-sm text-body-sm text-on-surface-variant">Identify deceptive psychological hooks, guaranteed yield claims, and fake handles.</p>
+                <h3 className="mt-space-md font-headline-sm text-headline-sm text-primary">{t('home.how.step1.title')}</h3>
+                <p className="mt-1 font-body-sm text-body-sm text-on-surface-variant">{t('home.how.step1.desc')}</p>
               </div>
               <div className="group relative flex flex-col items-center rounded-2xl bg-surface-container-lowest p-space-md text-center shadow-sm transition-all hover:shadow-md hover:-translate-y-1">
                 <div className="relative flex h-14 w-14 items-center justify-center rounded-2xl bg-surface-container-high text-secondary">
                   <span className="material-symbols-outlined text-[28px]">fact_check</span>
                   <span className="absolute -top-1.5 -right-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-secondary font-label-sm text-label-sm font-bold text-on-secondary">02</span>
                 </div>
-                <h3 className="mt-space-md font-headline-sm text-headline-sm text-primary">Verify</h3>
-                <p className="mt-1 font-body-sm text-body-sm text-on-surface-variant">Automated cross-check with SEBI intermediaries, RBI unauthorized lists, and MCA registers.</p>
+                <h3 className="mt-space-md font-headline-sm text-headline-sm text-primary">{t('home.how.step2.title')}</h3>
+                <p className="mt-1 font-body-sm text-body-sm text-on-surface-variant">{t('home.how.step2.desc')}</p>
               </div>
               <div className="group relative flex flex-col items-center rounded-2xl bg-surface-container-lowest p-space-md text-center shadow-sm transition-all hover:shadow-md hover:-translate-y-1">
                 <div className="relative flex h-14 w-14 items-center justify-center rounded-2xl bg-surface-container-high text-secondary">
                   <span className="material-symbols-outlined text-[28px]">lightbulb</span>
                   <span className="absolute -top-1.5 -right-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-secondary font-label-sm text-label-sm font-bold text-on-secondary">03</span>
                 </div>
-                <h3 className="mt-space-md font-headline-sm text-headline-sm text-primary">Explain</h3>
-                <p className="mt-1 font-body-sm text-body-sm text-on-surface-variant">Break down the manipulation tactics into simple, vernacular explanations (English & Tamil).</p>
+                <h3 className="mt-space-md font-headline-sm text-headline-sm text-primary">{t('home.how.step3.title')}</h3>
+                <p className="mt-1 font-body-sm text-body-sm text-on-surface-variant">{t('home.how.step3.desc')}</p>
               </div>
               <div className="group relative flex flex-col items-center rounded-2xl bg-surface-container-lowest p-space-md text-center shadow-sm transition-all hover:shadow-md hover:-translate-y-1">
                 <div className="relative flex h-14 w-14 items-center justify-center rounded-2xl bg-surface-container-high text-secondary">
                   <span className="material-symbols-outlined text-[28px]">school</span>
                   <span className="absolute -top-1.5 -right-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-secondary font-label-sm text-label-sm font-bold text-on-secondary">04</span>
                 </div>
-                <h3 className="mt-space-md font-headline-sm text-headline-sm text-primary">Educate</h3>
-                <p className="mt-1 font-body-sm text-body-sm text-on-surface-variant">Empower you with regulatory safeguards, SCORES redressal steps, and recovery guidance.</p>
+                <h3 className="mt-space-md font-headline-sm text-headline-sm text-primary">{t('home.how.step4.title')}</h3>
+                <p className="mt-1 font-body-sm text-body-sm text-on-surface-variant">{t('home.how.step4.desc')}</p>
               </div>
               <div className="group relative flex flex-col items-center rounded-2xl bg-surface-container-lowest p-space-md text-center shadow-sm transition-all hover:shadow-md hover:-translate-y-1">
                 <div className="relative flex h-14 w-14 items-center justify-center rounded-2xl bg-surface-container-high text-secondary">
                   <span className="material-symbols-outlined text-[28px]">security</span>
                   <span className="absolute -top-1.5 -right-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-secondary font-label-sm text-label-sm font-bold text-on-secondary">05</span>
                 </div>
-                <h3 className="mt-space-md font-headline-sm text-headline-sm text-primary">Invest Safer</h3>
-                <p className="mt-1 font-body-sm text-body-sm text-on-surface-variant">Confidently allocate capital exclusively through authentic SEBI-registered platforms.</p>
+                <h3 className="mt-space-md font-headline-sm text-headline-sm text-primary">{t('home.how.step5.title')}</h3>
+                <p className="mt-1 font-body-sm text-body-sm text-on-surface-variant">{t('home.how.step5.desc')}</p>
               </div>
+
             </div>
           </div>
         </section>

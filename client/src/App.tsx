@@ -11,6 +11,7 @@ import { SettingsPage } from './pages/SettingsPage';
 
 import { DashboardLayout } from './components/layout/DashboardLayout';
 import { PremiumBackground } from './components/ui/PremiumBackground';
+import { LanguageProvider } from './i18n';
 
 const AppDashboardLayout = () => (
   <DashboardLayout>
@@ -20,25 +21,27 @@ const AppDashboardLayout = () => (
 
 function App() {
   return (
-    <Router>
-      <PremiumBackground />
-      <Routes>
-        {/* Public Landing Page */}
-        <Route path="/" element={<HomePage />} />
+    <LanguageProvider>
+      <Router>
+        <PremiumBackground />
+        <Routes>
+          {/* Public Landing Page */}
+          <Route path="/" element={<HomePage />} />
 
-        {/* Dashboard / App Pages */}
-        <Route element={<AppDashboardLayout />}>
-          <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/analyze" element={<AnalyzePage />} />
-          <Route path="/learn" element={<LearnPage />} />
-          <Route path="/learn/:id" element={<LearnDetailPage />} />
-          <Route path="/history" element={<HistoryPage />} />
-          <Route path="/history/:id" element={<HistoryDetailPage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/settings" element={<SettingsPage />} />
-        </Route>
-      </Routes>
-    </Router>
+          {/* Dashboard / App Pages */}
+          <Route element={<AppDashboardLayout />}>
+            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/analyze" element={<AnalyzePage />} />
+            <Route path="/learn" element={<LearnPage />} />
+            <Route path="/learn/:id" element={<LearnDetailPage />} />
+            <Route path="/history" element={<HistoryPage />} />
+            <Route path="/history/:id" element={<HistoryDetailPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
+          </Route>
+        </Routes>
+      </Router>
+    </LanguageProvider>
   );
 }
 

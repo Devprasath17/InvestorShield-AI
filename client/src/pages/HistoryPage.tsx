@@ -6,9 +6,11 @@ import {
   HelpCircle, FileText, Image as ImageIcon, History, 
   Search, Filter, Plus, ShieldAlert, MoreVertical, Shield
 } from 'lucide-react';
+import { useLanguage } from '../i18n';
 
 export const HistoryPage: React.FC = () => {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const [analyses, setAnalyses] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -103,16 +105,16 @@ export const HistoryPage: React.FC = () => {
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-8">
         <div>
           <span className="text-blue-600 font-semibold text-xs tracking-wider uppercase mb-2 block">
-            YOUR ANALYSIS ARCHIVE
+            {t('history.badge')}
           </span>
-          <h1 className="text-3xl font-bold text-[#0F2D6B] mb-2 tracking-tight">Analysis History</h1>
-          <p className="text-slate-600">Review the financial content you've analyzed with InvestorShield AI.</p>
+          <h1 className="text-3xl font-bold text-[#0F2D6B] mb-2 tracking-tight">{t('history.title')}</h1>
+          <p className="text-slate-600">{t('history.desc')}</p>
         </div>
         <button 
           onClick={() => navigate('/analyze')}
           className="flex items-center gap-2 px-6 py-2.5 bg-[#0F2D6B] text-white font-medium rounded-xl hover:bg-[#0A1F4D] hover:-translate-y-[1px] active:scale-[0.98] transition-all duration-200 shadow-sm hover:shadow"
         >
-          <Plus className="w-4 h-4" /> Analyze Content
+          <Plus className="w-4 h-4" /> {t('history.btnAnalyze')}
         </button>
       </div>
 
@@ -121,7 +123,7 @@ export const HistoryPage: React.FC = () => {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           <div className="bg-white border border-slate-200 p-5 rounded-2xl flex items-center justify-between shadow-sm">
             <div>
-              <div className="text-slate-500 text-xs font-semibold mb-1">Total Analyses</div>
+              <div className="text-slate-500 text-xs font-semibold mb-1">{t('history.statTotal')}</div>
               <div className="text-2xl font-bold text-[#0F2D6B]">{stats.total}</div>
             </div>
             <div className="w-10 h-10 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center border border-blue-100">
@@ -130,7 +132,7 @@ export const HistoryPage: React.FC = () => {
           </div>
           <div className="bg-white border border-slate-200 p-5 rounded-2xl flex items-center justify-between shadow-sm">
             <div>
-              <div className="text-slate-500 text-xs font-semibold mb-1">Text Analyses</div>
+              <div className="text-slate-500 text-xs font-semibold mb-1">{t('history.statText')}</div>
               <div className="text-2xl font-bold text-[#0F2D6B]">{stats.text}</div>
             </div>
             <div className="w-10 h-10 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center border border-blue-100">
@@ -139,7 +141,7 @@ export const HistoryPage: React.FC = () => {
           </div>
           <div className="bg-white border border-slate-200 p-5 rounded-2xl flex items-center justify-between shadow-sm">
             <div>
-              <div className="text-slate-500 text-xs font-semibold mb-1">Screenshot Analyses</div>
+              <div className="text-slate-500 text-xs font-semibold mb-1">{t('history.statImage')}</div>
               <div className="text-2xl font-bold text-[#0F2D6B]">{stats.image}</div>
             </div>
             <div className="w-10 h-10 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center border border-blue-100">
@@ -148,7 +150,7 @@ export const HistoryPage: React.FC = () => {
           </div>
           <div className="bg-white border border-slate-200 p-5 rounded-2xl flex items-center justify-between shadow-sm">
             <div>
-              <div className="text-slate-500 text-xs font-semibold mb-1">Potentially Risky</div>
+              <div className="text-slate-500 text-xs font-semibold mb-1">{t('history.statRisky')}</div>
               <div className="text-2xl font-bold text-red-600">{stats.risky}</div>
             </div>
             <div className="w-10 h-10 bg-red-50 text-red-600 rounded-lg flex items-center justify-center border border-red-100">
@@ -165,7 +167,7 @@ export const HistoryPage: React.FC = () => {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
             <input 
               type="text" 
-              placeholder="Search your analyses..."
+              placeholder={t('history.search')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-sm text-slate-700"
@@ -173,9 +175,9 @@ export const HistoryPage: React.FC = () => {
           </div>
           <div className="flex items-center gap-2 overflow-x-auto">
             <div className="flex bg-slate-50 border border-slate-200 p-1 rounded-xl shrink-0">
-              <button onClick={() => setTypeFilter('All')} className={`px-4 py-1.5 rounded-lg text-sm active:scale-95 transition-all duration-200 ${typeFilter === 'All' ? 'bg-white text-slate-800 font-medium shadow-sm border border-slate-200/60' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-100'}`}>All</button>
-              <button onClick={() => setTypeFilter('text')} className={`px-4 py-1.5 rounded-lg text-sm active:scale-95 transition-all duration-200 ${typeFilter === 'text' ? 'bg-white text-slate-800 font-medium shadow-sm border border-slate-200/60' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-100'}`}>Text</button>
-              <button onClick={() => setTypeFilter('image')} className={`px-4 py-1.5 rounded-lg text-sm active:scale-95 transition-all duration-200 ${typeFilter === 'image' ? 'bg-white text-slate-800 font-medium shadow-sm border border-slate-200/60' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-100'}`}>Screenshot</button>
+              <button onClick={() => setTypeFilter('All')} className={`px-4 py-1.5 rounded-lg text-sm active:scale-95 transition-all duration-200 ${typeFilter === 'All' ? 'bg-white text-slate-800 font-medium shadow-sm border border-slate-200/60' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-100'}`}>{t('history.filterAll')}</button>
+              <button onClick={() => setTypeFilter('text')} className={`px-4 py-1.5 rounded-lg text-sm active:scale-95 transition-all duration-200 ${typeFilter === 'text' ? 'bg-white text-slate-800 font-medium shadow-sm border border-slate-200/60' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-100'}`}>{t('history.filterText')}</button>
+              <button onClick={() => setTypeFilter('image')} className={`px-4 py-1.5 rounded-lg text-sm active:scale-95 transition-all duration-200 ${typeFilter === 'image' ? 'bg-white text-slate-800 font-medium shadow-sm border border-slate-200/60' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-100'}`}>{t('history.filterScreenshot')}</button>
             </div>
             <select 
               value={riskFilter}
@@ -225,13 +227,13 @@ export const HistoryPage: React.FC = () => {
           <div className="w-16 h-16 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mx-auto mb-6">
             <Shield className="w-8 h-8" />
           </div>
-          <h2 className="text-xl font-bold text-[#0F2D6B] mb-2">Your analysis history is empty</h2>
-          <p className="text-slate-500 mb-8 max-w-sm mx-auto">Analyze a financial message or screenshot and your saved results will appear here.</p>
+          <h2 className="text-xl font-bold text-[#0F2D6B] mb-2">{t('history.emptyTitle')}</h2>
+          <p className="text-slate-500 mb-8 max-w-sm mx-auto">{t('history.emptyDesc')}</p>
           <button 
             onClick={() => navigate('/analyze')}
             className="inline-flex items-center px-6 py-3 bg-[#0F2D6B] text-white font-medium rounded-xl hover:bg-[#0A1F4D] hover:-translate-y-[1px] active:scale-[0.98] transition-all duration-200 shadow-sm"
           >
-            Analyze Content <ArrowRight className="w-4 h-4 ml-2" />
+            {t('history.btnAnalyze')} <ArrowRight className="w-4 h-4 ml-2" />
           </button>
         </div>
       ) : (
@@ -296,7 +298,7 @@ export const HistoryPage: React.FC = () => {
                   onClick={() => navigate(`/history/${analysis._id}`)}
                   className="text-blue-600 font-semibold text-sm flex items-center hover:text-blue-700 active:scale-95 transition-all duration-200"
                 >
-                  View Analysis <ArrowRight className="w-4 h-4 ml-1" />
+                  {t('history.viewAnalysis')} <ArrowRight className="w-4 h-4 ml-1" />
                 </button>
               </div>
 
@@ -326,22 +328,22 @@ export const HistoryPage: React.FC = () => {
             <div className="w-12 h-12 bg-red-50 text-red-500 rounded-full flex items-center justify-center mb-4">
               <Trash2 className="w-6 h-6" />
             </div>
-            <h3 className="text-xl font-bold text-slate-800 mb-2">Delete this analysis?</h3>
-            <p className="text-sm text-slate-500 mb-8">This saved analysis will be permanently removed from your history and offline backup cache.</p>
+            <h3 className="text-xl font-bold text-slate-800 mb-2">{t('history.deleteTitle')}</h3>
+            <p className="text-sm text-slate-500 mb-8">{t('history.deleteDesc')}</p>
             <div className="flex items-center justify-end gap-3">
               <button 
                 onClick={() => setDeleteConfirmId(null)}
                 disabled={isDeleting}
                 className="px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 rounded-xl active:scale-95 transition-all duration-200"
               >
-                Cancel
+                {t('history.cancel')}
               </button>
               <button 
                 onClick={handleDelete}
                 disabled={isDeleting}
                 className="px-4 py-2.5 text-sm font-semibold bg-red-600 text-white hover:bg-red-700 rounded-xl active:scale-95 transition-all duration-200 shadow-sm hover:shadow disabled:opacity-50"
               >
-                {isDeleting ? 'Deleting...' : 'Delete Analysis'}
+                {isDeleting ? 'Deleting...' : t('history.deleteBtn')}
               </button>
             </div>
           </div>
