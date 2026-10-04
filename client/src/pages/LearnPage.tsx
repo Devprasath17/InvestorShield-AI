@@ -14,6 +14,8 @@ export const LearnPage: React.FC = () => {
   const [topics, setTopics] = useState<EducationItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchTopics = async () => {
@@ -50,6 +52,51 @@ export const LearnPage: React.FC = () => {
     ];
     return visuals[index % visuals.length];
   };
+
+  const categories = [
+    "High-Risk Signals",
+    "Investment Scams",
+    "Phishing & Social Engineering",
+    "Fake SEBI / Regulatory Claims",
+    "Guaranteed Returns",
+    "Suspicious Links",
+    "Fake Trading Apps",
+    "Payment & UPI Safety",
+    "Account & OTP Safety",
+    "Safe Investing Habits"
+  ];
+
+  const filteredTopics = topics.filter(topic => {
+    const searchLower = searchQuery.toLowerCase().trim();
+    const matchesSearch = !searchLower || (
+      (topic.topic && topic.topic.toLowerCase().includes(searchLower)) ||
+      (topic.title && topic.title.toLowerCase().includes(searchLower)) ||
+      (topic.explanation && topic.explanation.toLowerCase().includes(searchLower)) ||
+      (topic.whyItMatters && topic.whyItMatters.toLowerCase().includes(searchLower)) ||
+      (topic.whatToLookFor && topic.whatToLookFor.toLowerCase().includes(searchLower)) ||
+      (topic.whatToCheck && topic.whatToCheck.toLowerCase().includes(searchLower)) ||
+      (topic.safeHabit && topic.safeHabit.toLowerCase().includes(searchLower))
+    );
+
+    const matchesCategory = !activeCategory || (
+      topic.topic === activeCategory || 
+      (activeCategory === 'High-Risk Signals' && topic.topic?.toLowerCase().includes('risk')) ||
+      (activeCategory === 'Investment Scams' && (topic.topic?.toLowerCase().includes('scam') || topic.topic?.toLowerCase().includes('invest'))) ||
+      (activeCategory === 'Phishing & Social Engineering' && (topic.topic?.toLowerCase().includes('phishing') || topic.topic?.toLowerCase().includes('social'))) ||
+      (activeCategory === 'Fake SEBI / Regulatory Claims' && (topic.topic?.toLowerCase().includes('sebi') || topic.topic?.toLowerCase().includes('regulat'))) ||
+      (activeCategory === 'Guaranteed Returns' && topic.topic?.toLowerCase().includes('guarantee')) ||
+      (activeCategory === 'Suspicious Links' && topic.topic?.toLowerCase().includes('link')) ||
+      (activeCategory === 'Fake Trading Apps' && (topic.topic?.toLowerCase().includes('app') || topic.topic?.toLowerCase().includes('trad'))) ||
+      (activeCategory === 'Payment & UPI Safety' && (topic.topic?.toLowerCase().includes('payment') || topic.topic?.toLowerCase().includes('upi'))) ||
+      (activeCategory === 'Account & OTP Safety' && (topic.topic?.toLowerCase().includes('account') || topic.topic?.toLowerCase().includes('otp'))) ||
+      (activeCategory === 'Safe Investing Habits' && topic.topic?.toLowerCase().includes('habit')) ||
+      // Fallback matching
+      (topic.topic && activeCategory.toLowerCase().includes(topic.topic.toLowerCase())) ||
+      (topic.topic && topic.topic.toLowerCase().includes(activeCategory.toLowerCase()))
+    );
+
+    return matchesSearch && matchesCategory;
+  });
 
   return (
     <div className="w-full max-w-[1440px] mx-auto p-4 md:p-8 font-sans text-slate-800 animate-in fade-in slide-in-from-bottom-2 duration-300 ease-out motion-reduce:animate-none">
@@ -133,15 +180,44 @@ export const LearnPage: React.FC = () => {
           <input 
             type="text" 
             placeholder="What do you want to learn? (e.g., Guaranteed returns, Suspicious links, Regulatory claims, OTP safety...)"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-medium text-slate-700"
           />
+          {searchQuery && (
+            <button 
+              onClick={() => setSearchQuery('')}
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-sm font-semibold"
+            >
+              Clear
+            </button>
+          )}
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <button className="px-4 py-1.5 rounded-full text-sm font-semibold bg-[#0F2D6B] text-white active:scale-95 transition-all duration-200 shadow-sm">All Topics</button>
-          <button className="px-4 py-1.5 rounded-full text-sm font-medium bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 active:scale-95 transition-all duration-200">High-Risk Signals</button>
-          <button className="px-4 py-1.5 rounded-full text-sm font-medium bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 active:scale-95 transition-all duration-200">Digital & Identity Safety</button>
-          <button className="px-4 py-1.5 rounded-full text-sm font-medium bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 active:scale-95 transition-all duration-200">Regulatory Verification</button>
-          <button className="px-4 py-1.5 rounded-full text-sm font-medium bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 active:scale-95 transition-all duration-200">Payment Steps</button>
+          <button 
+            onClick={() => setActiveCategory(null)}
+            className={`px-4 py-1.5 rounded-full text-sm transition-all duration-200 shadow-sm ${
+              activeCategory === null 
+                ? "font-semibold bg-[#0F2D6B] text-white active:scale-95" 
+                : "font-medium bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 active:scale-95"
+            }`}
+          >
+            All Topics
+          </button>
+          
+          {categories.map((category) => (
+            <button 
+              key={category}
+              onClick={() => setActiveCategory(activeCategory === category ? null : category)}
+              className={`px-4 py-1.5 rounded-full text-sm transition-all duration-200 shadow-sm ${
+                activeCategory === category
+                  ? "font-semibold bg-[#0F2D6B] text-white active:scale-95" 
+                  : "font-medium bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 active:scale-95"
+              }`}
+            >
+              {category}
+            </button>
+          ))}
         </div>
       </div>
 
@@ -335,31 +411,56 @@ export const LearnPage: React.FC = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-            {topics.map((topic, index) => {
-              const visual = getTopicVisuals(index);
-              const moduleStr = `MODULE ${(index + 1).toString().padStart(2, '0')}`;
-              
-              return (
-                <div key={index} className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md hover:-translate-y-[1px] transition-all duration-200 group flex flex-col h-full cursor-pointer hover:border-blue-300">
-                  <div className="flex justify-between items-start mb-4">
-                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-widest ${visual.color === 'red' ? 'bg-red-50 text-red-600' : 'bg-blue-50 text-blue-600'}`}>
-                      {moduleStr}
-                    </span>
-                    <div className="p-1.5 bg-slate-50 rounded-lg text-slate-400 group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors">
-                      {visual.icon}
+            {filteredTopics.length > 0 ? (
+              filteredTopics.map((topic, index) => {
+                const visual = getTopicVisuals(index);
+                const moduleStr = `MODULE ${(index + 1).toString().padStart(2, '0')}`;
+                
+                return (
+                  <div 
+                    key={topic.id || index} 
+                    onClick={() => navigate(`/learn/${topic.id}`)}
+                    className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md hover:-translate-y-[1px] transition-all duration-200 group flex flex-col h-full cursor-pointer hover:border-blue-300"
+                  >
+                    <div className="flex justify-between items-start mb-4">
+                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-widest ${visual.color === 'red' ? 'bg-red-50 text-red-600' : 'bg-blue-50 text-blue-600'}`}>
+                        {topic.topic || moduleStr}
+                      </span>
+                      <div className="p-1.5 bg-slate-50 rounded-lg text-slate-400 group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors">
+                        {visual.icon}
+                      </div>
+                    </div>
+                    <h3 className="text-lg font-bold text-slate-800 mb-2 leading-snug">{topic.title}</h3>
+                    <p className="text-sm text-slate-500 mb-6 flex-1 leading-relaxed line-clamp-3">{topic.whyItMatters}</p>
+                    <div className="flex items-center justify-between pt-4 border-t border-slate-100 mt-auto">
+                      <span className="text-[10px] font-semibold text-slate-400">{visual.type}</span>
+                      <span className="text-sm font-bold text-blue-600 group-hover:text-[#0F2D6B] transition-colors flex items-center">
+                        Learn More <ArrowRight className="w-3.5 h-3.5 ml-1 group-hover:translate-x-1 transition-transform" />
+                      </span>
                     </div>
                   </div>
-                  <h3 className="text-lg font-bold text-slate-800 mb-2 leading-snug">{topic.title}</h3>
-                  <p className="text-sm text-slate-500 mb-6 flex-1 leading-relaxed">{topic.whyItMatters}</p>
-                  <div className="flex items-center justify-between pt-4 border-t border-slate-100 mt-auto">
-                    <span className="text-[10px] font-semibold text-slate-400">{visual.type}</span>
-                    <span className="text-sm font-bold text-blue-600 group-hover:text-[#0F2D6B] transition-colors flex items-center">
-                      Learn More <ArrowRight className="w-3.5 h-3.5 ml-1 group-hover:translate-x-1 transition-transform" />
-                    </span>
-                  </div>
+                );
+              })
+            ) : (
+              <div className="col-span-full py-16 flex flex-col items-center justify-center text-center">
+                <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-4">
+                  <Search className="w-8 h-8 text-slate-300" />
                 </div>
-              );
-            })}
+                <h3 className="text-xl font-bold text-slate-800 mb-2">No learning resources found</h3>
+                <p className="text-slate-500 max-w-md">
+                  Try another keyword such as "phishing", "investment scam", or "guaranteed returns".
+                </p>
+                <button 
+                  onClick={() => {
+                    setSearchQuery('');
+                    setActiveCategory(null);
+                  }}
+                  className="mt-6 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-lg transition-colors text-sm"
+                >
+                  Clear Filters
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>
